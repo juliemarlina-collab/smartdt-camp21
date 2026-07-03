@@ -1,0 +1,6 @@
+/* Phase 01 compatibility patch.
+   This file is intentionally lightweight because phase01-empathy.html already
+   contains its full page styling inline. Keeping this file prevents a 404. */
+.info-img{width:100%;height:auto;border-radius:24px;display:block;margin:14px 0}
+.img-fallback{display:none}
+@media print{.header,.hero-card,.intro-card,.rule-card,.stepbar,.template-nav,.bottom-nav,#quick,#quiz{display:none!important}.panel,.template-panel{display:block!important}body{background:#fff}.page{padding:0!important}}
