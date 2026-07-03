@@ -315,8 +315,7 @@ input:focus, textarea:focus, select:focus{
 @media (max-width:720px){
   .brand-logo img{ width:42px; height:42px; }
   .brand-text{ font-size:14px; }
-  .pill.lang-pill,.avatar{ display:none; }
-  .pill,.icon-btn{ height:42px; }
+  .pill,.avatar,.icon-btn{ height:42px; }
   .hero-card{ border-radius:24px; padding:12px; margin:14px auto; }
   .hero-card img{ height:clamp(150px,42vw,220px); }
   .intro-card{ border-radius:24px; padding:22px 18px; }
