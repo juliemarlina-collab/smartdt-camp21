@@ -31,7 +31,7 @@ body{
   max-width:var(--smartdt-app-max) !important;
   margin:0 auto !important;
   min-height:100vh;
-  background:var(--bg, #EEF5FA);
+  background:var(--bg, #F7F4F1);
 }
 
 .header{

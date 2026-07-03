@@ -26,33 +26,33 @@
    ------------------------------------------------------------ */
 :root{
   /* Brand colors */
-  --navy:   #082B66;   /* primary text on light, primary buttons, headings */
-  --teal:   #16B8AA;   /* success, active nav, guide links, progress */
-  --orange: #FF6236;   /* call-to-action, quiz, warnings-accent */
-  --teal-bright: #29E1D1; /* accent word inside dark intro cards */
+  --navy:   #201B33;   /* primary text on light, primary buttons, headings */
+  --teal:   #5F7A61;   /* success, active nav, guide links, progress */
+  --orange: #D89530;   /* call-to-action, quiz, warnings-accent */
+  --teal-bright: #9FB79F; /* accent word inside dark intro cards */
 
   /* Surfaces */
-  --bg:     #EEF5FA;   /* app background */
-  --soft:   #F8FBFE;   /* soft inner panels */
-  --line:   #DDE8F0;   /* borders */
+  --bg:     #F7F4F1;   /* app background */
+  --soft:   #FCFBFA;   /* soft inner panels */
+  --line:   #ECE7E1;   /* borders */
 
   /* Text */
-  --text:   #061A3A;   /* body text */
-  --muted:  #68778F;   /* secondary text */
+  --text:   #14121F;   /* body text */
+  --muted:  #867D71;   /* secondary text */
 
   /* Semantic tints (quick-fact boxes, quiz states) */
   --tint-yellow: #FFF3D6;
   --tint-red:    #FFF1F1;
-  --tint-green:  #E9FAF7;
+  --tint-green:  #EEF3EC;
   --tint-cream:  #FFFCF5;
-  --tint-peach:  #FFF7ED;
+  --tint-peach:  #FBEED9;
 
   /* Typography */
   --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Elevation */
-  --shadow:      0 16px 36px rgba(8,43,102,.09);
-  --shadow-soft: 0 10px 24px rgba(8,43,102,.05);
+  --shadow:      0 16px 36px rgba(22,26,42,.09);
+  --shadow-soft: 0 10px 24px rgba(22,26,42,.05);
 
   /* Radii scale */
   --r-hero: 30px;   /* hero card */
@@ -133,7 +133,7 @@ body{
 .hero-card{
   background:#fff; width:100%; max-width:900px; margin:20px auto;
   padding:18px; border-radius:var(--r-hero);
-  border:1px solid rgba(8,43,102,.06); box-shadow:var(--shadow);
+  border:1px solid rgba(22,26,42,.06); box-shadow:var(--shadow);
   display:flex; align-items:center; justify-content:center; overflow:hidden;
 }
 .hero-card img{
@@ -145,13 +145,13 @@ body{
    6. INTRO CARD (dark navy gradient banner)
    ------------------------------------------------------------ */
 .intro-card{
-  background:linear-gradient(135deg,var(--navy),#0A3678 72%);
+  background:linear-gradient(135deg,var(--navy),#241F3D 72%);
   border-radius:28px; color:#fff; padding:30px 28px; margin-bottom:16px;
-  box-shadow:0 18px 34px rgba(8,43,102,.18); position:relative; overflow:hidden;
+  box-shadow:0 18px 34px rgba(22,26,42,.18); position:relative; overflow:hidden;
 }
 .intro-card:after{
   content:""; position:absolute; right:-34px; top:-36px;
-  width:124px; height:124px; border-radius:50%; background:rgba(22,184,170,.28);
+  width:124px; height:124px; border-radius:50%; background:rgba(95,122,97,.28);
 }
 .eyebrow{ font-size:13px; text-transform:uppercase; letter-spacing:.09em; font-weight:900; opacity:.8; margin-bottom:8px; }
 .intro-title{ font-size:clamp(28px,3.1vw,34px); line-height:1.12; font-weight:900; letter-spacing:-.04em; }
@@ -180,7 +180,7 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
   display:inline-flex; align-items:center; justify-content:center; text-decoration:none;
 }
 .btn.orange{ background:var(--orange); }
-.btn.secondary{ background:#E9F1F7; color:var(--navy); }
+.btn.secondary{ background:#F4F1EC; color:var(--navy); }
 .btn-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
 
 /* ------------------------------------------------------------
@@ -190,7 +190,7 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
 .chip{
   border:1px solid var(--line); background:#fff; border-radius:var(--r-pill);
   padding:14px 0; font-family:var(--font); font-size:14px; font-weight:900;
-  color:#7A879A; cursor:pointer;
+  color:#938B81; cursor:pointer;
 }
 .chip.active{ background:var(--navy); color:#fff; }
 
@@ -201,13 +201,13 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
 .quick-fact{
   background:var(--tint-cream); border:1.5px solid #EADFC6;
   border-radius:var(--r-box); padding:18px; margin:14px 0;
-  box-shadow:0 10px 24px rgba(8,43,102,.04);
+  box-shadow:0 10px 24px rgba(22,26,42,.04);
 }
 .qf-head{ display:flex; gap:14px; align-items:center; margin-bottom:14px; }
 .qf-icon{
   width:68px; height:68px; border-radius:22px; background:#fff;
   display:grid; place-items:center; border:1px solid var(--line);
-  box-shadow:0 10px 20px rgba(8,43,102,.06); font-size:36px; flex:0 0 auto;
+  box-shadow:0 10px 20px rgba(22,26,42,.06); font-size:36px; flex:0 0 auto;
 }
 .qf-title{ font-size:18px; font-weight:900; color:var(--navy); line-height:1.25; }
 .qf-sub{ font-size:14px; color:var(--muted); font-weight:700; margin-top:3px; }
@@ -220,19 +220,19 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
 .mini-emoji{
   width:44px; height:44px; border-radius:14px; background:#fff;
   display:grid; place-items:center; font-size:25px;
-  box-shadow:0 6px 14px rgba(8,43,102,.06);
+  box-shadow:0 6px 14px rgba(22,26,42,.06);
 }
 .qf-copy b{ display:block; color:var(--navy); font-size:12px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; }
 .qf-item.warn{   background:var(--tint-red);    border-color:#FFD0D0; }
-.qf-item.enough{ background:var(--tint-yellow); border-color:#F6D86B; }
-.qf-item.case{   background:var(--tint-green);  border-color:#BDEFE6; }
+.qf-item.enough{ background:var(--tint-yellow); border-color:#F0C15A; }
+.qf-item.case{   background:var(--tint-green);  border-color:#C9DBC9; }
 
 /* ------------------------------------------------------------
    11. GUIDE DROPDOWN (orange "Need help?" pattern)
    ------------------------------------------------------------ */
 .guide-drop{
   margin:14px 0 4px; border:0; border-radius:var(--r-drop);
-  background:#fff; overflow:hidden; box-shadow:0 10px 22px rgba(255,98,54,.12);
+  background:#fff; overflow:hidden; box-shadow:0 10px 22px rgba(216,149,48,.12);
 }
 .guide-drop summary{
   list-style:none; cursor:pointer; padding:16px 18px;
@@ -241,7 +241,7 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
 }
 .guide-drop summary::-webkit-details-marker{ display:none; }
 .guide-drop summary:after{ content:"⌄"; font-size:22px; color:#fff; }
-.guide-body{ border:1px solid #FFD8C8; border-top:0; padding:14px 16px; background:#fff; border-radius:0 0 var(--r-drop) var(--r-drop); }
+.guide-body{ border:1px solid #F6DDAE; border-top:0; padding:14px 16px; background:#fff; border-radius:0 0 var(--r-drop) var(--r-drop); }
 .guide-link{
   min-height:50px; border-radius:var(--r-pill); background:var(--teal);
   color:#fff; text-decoration:none; font-weight:900; font-size:15px;
@@ -260,7 +260,7 @@ input, textarea, select{
 textarea{ min-height:108px; resize:vertical; }
 input:focus, textarea:focus, select:focus{
   outline:none; border-color:var(--teal);
-  box-shadow:0 0 0 4px rgba(22,184,170,.10);
+  box-shadow:0 0 0 4px rgba(95,122,97,.10);
 }
 .form-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 
@@ -274,7 +274,7 @@ input:focus, textarea:focus, select:focus{
   border-radius:var(--r-input); background:#fff; padding:14px; margin:8px 0;
   font-family:var(--font); font-size:15px; font-weight:700; color:var(--text); cursor:pointer;
 }
-.option.selected{ border-color:var(--navy); background:#EAF1FB; }
+.option.selected{ border-color:var(--navy); background:#F6F3EF; }
 .option.correct{  border-color:var(--teal); background:var(--tint-green); }
 .option.wrong{    border-color:#E5484D;     background:var(--tint-red); }
 
@@ -282,10 +282,10 @@ input:focus, textarea:focus, select:focus{
    14. BADGE CARD (phase completion)
    ------------------------------------------------------------ */
 .badge-card{
-  background:linear-gradient(135deg,var(--tint-green),#F4FFFD);
-  border:1.5px solid #BDEFE6; border-radius:var(--r-card);
+  background:linear-gradient(135deg,var(--tint-green),#F4F7F1);
+  border:1.5px solid #C9DBC9; border-radius:var(--r-card);
   padding:24px 18px; margin-top:18px; text-align:center;
-  box-shadow:0 12px 26px rgba(22,184,170,.10);
+  box-shadow:0 12px 26px rgba(95,122,97,.10);
 }
 .badge-card h3{ color:var(--teal); font-size:28px; line-height:1.15; margin:6px 0; }
 .badge-img{ width:92px; height:92px; object-fit:contain; margin:0 auto 8px; display:block; }
@@ -300,10 +300,10 @@ input:focus, textarea:focus, select:focus{
   padding-bottom:env(safe-area-inset-bottom);
   background:#fff; border-top:1px solid var(--line);
   display:grid; grid-template-columns:repeat(5,minmax(0,1fr));
-  z-index:120; box-shadow:0 -10px 24px rgba(8,43,102,.06);
+  z-index:120; box-shadow:0 -10px 24px rgba(22,26,42,.06);
 }
 .nav-item{
-  text-decoration:none; color:#7C8799; display:flex; flex-direction:column;
+  text-decoration:none; color:#928C83; display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:4px; font-size:11px; font-weight:800;
 }
 .nav-item.active{ color:var(--teal); }
