@@ -127,3 +127,17 @@
     font-size:10px !important;
   }
 }
+
+/* ---------- SAFE-AREA PATCH (Jul 2026) ----------
+   iPhone home-indicator support + anchor scroll offset.
+   Header is sticky (occupies layout space) so NO top padding needed. */
+html{
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+.bottom-nav{
+  height: calc(var(--nav-h) + env(safe-area-inset-bottom)) !important;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.page{
+  padding-bottom: calc(var(--nav-h) + 28px + env(safe-area-inset-bottom)) !important;
+}
