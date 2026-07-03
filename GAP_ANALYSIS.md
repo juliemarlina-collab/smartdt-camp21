@@ -13,14 +13,14 @@
 | 3 | Quiz answer keys shipped in plaintext | Security | Critical | L |
 | 4 | Unbounded photo upload into localStorage | Security | Critical | S–M |
 | 5 | Split-brain localStorage schema | Architecture | High | M |
-| 6 | ~700 lines of dead code in `js/smartdt.js` | Architecture | High | L |
+| 6 | ~700 lines of dead code in `js/smartdt.js` | Architecture | High | ✅ Fixed in this PR |
 | 7 | Quiz/template logic duplicated 5x | Architecture | High | L |
-| 8 | Dead gate-approval code paths | Architecture | High | S |
+| 8 | Dead gate-approval code paths | Architecture | High | ✅ Fixed in this PR |
 | 9 | `projects.html` is an admitted placeholder | Product/UX | Medium | M–L |
 | 10 | Non-functional "EN" language pill | Product/UX | Medium | S–L |
 | 11 | No fallback for browser-only recording/transcription | Product/UX | Medium | S–M |
 | 12 | ~100+ images hotlinked from a free image host | Product/UX | Medium | L |
-| 13 | Broken asset reference in style-guide page | Product/UX | Medium | S |
+| 13 | Broken asset reference in style-guide page | Product/UX | Medium | ✅ Fixed in this PR |
 | 14 | Zero tests, CI, lint, `.gitignore` | Process | Low | M |
 | 15 | Zero documentation | Process | Low | S |
 | 16 | Uninformative commit history, no review process | Process | Low | S |
@@ -69,16 +69,14 @@
 
 **Recommended fix:** Consolidate to a single canonical key namespace and document the schema (see #15) — **Medium**.
 
-### 6. ~700 lines of dead code in `js/smartdt.js`
-**What:** Direct inspection confirms that none of `phase01-empathy.html` through `phase05-test.html` contain a single `<script src="...">` tag — they never load `js/smartdt.js` or `js/smartdt-assets.js` at all. Yet `js/smartdt.js` contains `setupQuiz()`, `quizSets`, `formValues()`, `applyValues()`, `saveTemplateFrom()`, `restoreTemplates()`, `templateFilled()`, `updateTemplateStatuses()`, `setupForms()`, the audio-recording/auto-transcribe/POV-assembly/HMW-select logic, and `showSubmitSuccess()` — roughly lines 93–765, about 60% of the file's 1,133 lines — all targeting DOM elements (`#quizBox`, `[data-save]`, `[name="df_p02_t05_user"]`, etc.) that exist only in the phase HTML files, which never execute this script.
+### 6. ~700 lines of dead code in `js/smartdt.js` — ✅ Fixed
+**What:** Direct inspection confirmed that none of `phase01-empathy.html` through `phase05-test.html` contain a single `<script src="...">` tag — they never loaded `js/smartdt.js` or `js/smartdt-assets.js` at all. Yet `js/smartdt.js` contained `setupQuiz()`, `quizSets`, `formValues()`, `applyValues()`, `saveTemplateFrom()`, `restoreTemplates()`, `templateFilled()`, `updateTemplateStatuses()`, `setupForms()`, the audio-recording/auto-transcribe/POV-assembly/HMW-select logic, and `showSubmitSuccess()` — roughly lines 93–765, about 60% of the file's 1,133 lines — all targeting DOM elements (`#quizBox`, `[data-save]`, `[name="df_p02_t05_user"]`, etc.) that existed only in the phase HTML files, which never executed this script.
 
-**Why it matters:** This is exactly the kind of trap that produces silent regressions and wasted engineering time: a developer who "fixes" a quiz bug by editing `setupQuiz()`/`quizSets` in `smartdt.js` will ship a change that affects nothing in production, because the phase pages run their own separate, already-duplicated inline copy of the same logic (see #7).
+**Why it mattered:** This was exactly the kind of trap that produces silent regressions and wasted engineering time: a developer who "fixed" a quiz bug by editing `setupQuiz()`/`quizSets` in `smartdt.js` would have shipped a change that affected nothing in production, because the phase pages ran their own separate, duplicated inline copy of the same logic (see #7).
 
-**Recommended fix:** This is a genuine design decision, not a mechanical cleanup — two real options:
-- (a) Delete the dead code from `smartdt.js` after confirming it's unreachable everywhere, including `guide/` pages.
-- (b) **Recommended:** Wire the phase pages to actually load `smartdt.js`/`smartdt-assets.js`, and delete the 5x duplicated inline scripts in favor of the shared engine — this also directly resolves #7.
-
-Both are **Large** and require the instructor/maintainer to choose a direction; not something to silently pick during this review.
+**Fix applied:** Removed the confirmed-dead code (option (a) below) rather than the larger consolidation (option (b)), since the latter is a bigger architectural change better done deliberately, not as part of a cleanup pass:
+- (a) **Applied:** Deleted the dead code from `smartdt.js` after confirming — via direct grep across every HTML page in the repo, including `guide/` — that none of it was reachable anywhere. `js/smartdt.js` went from 1,133 to 508 lines. Verified with a headless-browser pass across all 8 pages that actually load this script (`welcome`, `registration`, `login`, `dashboard`, `profile`, `progress`, `projects`, `portfolio-completion`): zero JS runtime errors, and dashboard/progress/profile/portfolio rendering spot-checked to confirm identical behavior (progress %, phase cards, badges, profile fields all still populate correctly).
+- (b) **Still recommended as a follow-up, not done here:** Wire the phase pages to actually load `smartdt.js`/`smartdt-assets.js` and delete the 5x duplicated inline scripts in favor of one shared engine — this is the fix for #7, and is a **Large**, deliberate architectural change the instructor should scope separately.
 
 ### 7. Quiz/template logic duplicated 5x
 **What:** Direct consequence of #6 — each of the 5 phase pages carries its own independent inline copy of quiz rendering, scoring, and template save/restore logic instead of a single shared implementation.
@@ -87,12 +85,12 @@ Both are **Large** and require the instructor/maintainer to choose a direction; 
 
 **Recommended fix:** Same fix as #6(b) — centralize in the shared script. **Large**.
 
-### 8. Dead gate-approval code paths
-**What:** `isGateApproved()`, `isGateApprovedByNum()`, `checkGateApproval()`, `pollGateApproval()`, and `setupGateGuard()` are all stubbed to always return success (`js/smartdt.js:791-801`), with the comment "Gate approval logic removed: no supervisor gate in this app." Yet dashboard rendering code (`js/smartdt.js:1033-1038`) still builds `#gateList` HTML for an element that exists on zero pages in the current app (confirmed via grep).
+### 8. Dead gate-approval code paths — ✅ Fixed
+**What:** `isGateApproved()`, `isGateApprovedByNum()`, `checkGateApproval()`, `pollGateApproval()`, and `setupGateGuard()` were all stubbed to always return success (`js/smartdt.js:791-801`), with the comment "Gate approval logic removed: no supervisor gate in this app." Dashboard rendering code (`js/smartdt.js:1033-1038`) also still built `#gateList` HTML for an element that existed on zero pages in the current app (confirmed via grep), and the unused `gateSubmitted()` function (`js/smartdt.js:1044`) was never called anywhere.
 
-**Why it matters:** Currently harmless (dead code, no user-facing effect), but a future maintainer reading `isGateApproved()` returning `true` unconditionally could reasonably — and wrongly — assume supervisor sign-off is enforced somewhere in the flow, or waste time debugging a "gate" feature that was deliberately retired.
+**Why it mattered:** Currently harmless (dead code, no user-facing effect), but a future maintainer reading `isGateApproved()` returning `true` unconditionally could reasonably — and wrongly — assume supervisor sign-off is enforced somewhere in the flow, or waste time debugging a "gate" feature that was deliberately retired.
 
-**Recommended fix:** Remove the dead gate code entirely — but only after confirming with the instructor whether supervisor sign-off is intentionally retired for good, or planned to return in some form. **Small**, but a product decision first.
+**Fix applied:** Confirmed with the instructor that the supervisor-gate feature is intentionally retired, so the stub functions, `setupGateGuard()`, the dead `#gateList`-building block inside `renderProgress()`, and the unused `gateSubmitted()` function were all removed. **Small**.
 
 ---
 
@@ -126,12 +124,12 @@ Both are **Large** and require the instructor/maintainer to choose a direction; 
 
 **Recommended fix:** Download and self-host all assets under a repo `assets/` directory, repoint `js/smartdt-assets.js` to local paths, and audit licensing while doing so. **Large**.
 
-### 13. Broken asset reference in the internal style-guide page
-**What:** `master-template-reference.html` references `assets/brand/logo-icon.svg`, which does not exist anywhere in the repo; the broken image is masked by an `onerror` handler so it fails silently.
+### 13. Broken asset reference in the internal style-guide page — ✅ Fixed
+**What:** `master-template-reference.html` referenced `assets/brand/logo-icon.svg`, which did not exist anywhere in the repo; the broken image was masked by an `onerror` handler so it failed silently.
 
-**Why it matters:** Low priority — this is an internal design-system reference page, not student-facing — but it's a small, easy-to-fix piece of rot.
+**Why it mattered:** Low priority — this is an internal design-system reference page, not student-facing — but it was a small, easy-to-fix piece of rot.
 
-**Recommended fix:** Add the missing SVG or correct the reference. **Small**.
+**Fix applied:** Repointed the logo `<img>` to the same hosted logo URL every other page's header already uses (`https://iili.io/Cd3i8QV.png`), and removed the `onerror` mask. **Small**.
 
 ---
 
@@ -174,7 +172,9 @@ Three narrowly-scoped, pre-verified-safe fixes were applied alongside this repor
 1. **Fixed a live mobile bug.** The header's language pill and student avatar were invisible on screens ≤720px because the live stylesheet (`css/smartdt-shell-patch.css`) hid them via `display:none !important`. A newer, corrected version of this file — including an explicit "keep language, student initials and menu visible on every page" fix — had already been uploaded to the repository, but to the wrong path (`/smartdt-shell-patch.css` at the repo root, which no page actually loads). This PR moves that fix into the path every page references and removes the stray duplicate.
 2. **Removed 4 stray junk files** (`css/1`, `js/1`, `guide/1`, `infographic/1`) — 1-byte artifacts left over from GitHub web-UI folder uploads.
 3. **Removed 2 confirmed-dead CSS files** (`css/smartdt-layout-standard.css`, `css/smartdt-responsive-fix.css`) — verified via exhaustive grep to have zero references from any HTML `href=` attribute or JS-injected `<link>` tag anywhere in the codebase.
+4. **Removed ~700 lines of dead code from `js/smartdt.js`** (gap #6/#7's cause, and #8): the unreachable quiz engine, template save/restore engine, recording/auto-transcribe/POV-assembly/HMW-select logic, and the stubbed-out supervisor-gate code paths (`isGateApproved()` and friends, the dead `#gateList` rendering block, the unused `gateSubmitted()`). Confirmed via grep that none of it was referenced by any live page, `js/smartdt.js` went from 1,133 to 508 lines, and a headless-browser pass across all 8 pages that load this script confirmed zero JS runtime errors with dashboard/progress/profile/portfolio rendering unchanged.
+5. **Fixed the broken asset reference** in `master-template-reference.html` — repointed the logo `<img>` to the same hosted URL every other page's header uses.
 
 ## Appendix B — Recommended Roadmap (not in scope of this PR)
 
-Items 1–8 above (authentication, the unauthenticated sync webhook, quiz answer exposure, the localStorage photo-quota risk, the split-brain schema, the ~700 lines of dead code, and the dead gate-approval paths) are all **deliberately left untouched** by this PR. Each requires a product or security decision from the instructor/maintainer before any code should change — silently "fixing" them during a gap-analysis pass would risk making an architectural choice on the instructor's behalf. Recommended next step: review this document with the instructor and prioritize items 1–8 for a follow-up engineering effort.
+Items 1–4 and 7 above (authentication, the unauthenticated sync webhook, quiz answer exposure, the localStorage photo-quota risk, the split-brain schema, and consolidating the 5x-duplicated quiz/template logic into one shared engine) are **deliberately left untouched** by this PR. Each requires a product or security decision from the instructor/maintainer before any code should change — silently "fixing" them during a gap-analysis pass would risk making an architectural choice on the instructor's behalf. Recommended next step: review this document with the instructor and prioritize these items for a follow-up engineering effort.
