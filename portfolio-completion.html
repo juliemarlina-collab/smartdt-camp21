@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport"/>
+<title>Portfolio Completion — Smart DT Project</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="css/smartdt.css" rel="stylesheet"/><link href="css/smartdt-shell-patch.css" rel="stylesheet"/>
+</head>
+<body data-page="portfolio">
+<div class="app">
+<header class="header">
+  <a class="brand" href="dashboard.html"><span class="brand-logo brand-logo-inline"><img alt="" src="https://iili.io/Cd3i8QV.png"/></span><span class="brand-text">Smart DT<br/>Project</span></a>
+  <div class="header-actions"><span class="pill lang-pill"><span class="pill-symbol" aria-hidden="true">🌐</span> EN</span><span class="avatar">ST</span></div>
+</header>
+<main class="page phase-page">
+
+  <section class="hero-card compact"><img alt="Portfolio completed hero" class="hero-img-wide" src="https://iili.io/CdzD93X.png"/></section>
+
+  <section class="intro-card">
+    <p class="eyebrow">Portfolio Completion</p>
+    <h1 class="intro-title">Prepare your final <span class="teal">DT portfolio submission.</span></h1>
+    <p class="intro-text">Review your completion status below. All phases, gates and evidence must be in order before submitting the portfolio for assessment.</p>
+  </section>
+
+  <!-- Personalised summary — populated by renderPortfolio() -->
+  <div class="card" id="portfolioSummary">
+    <p class="section-sub" style="margin:0">Loading your progress summary…</p>
+  </div>
+
+  <!-- Dynamic checklist — populated by renderPortfolio() -->
+  <div class="card">
+    <h2 class="section-title" style="margin-top:0">Portfolio Completion Checklist</h2>
+    <p class="section-sub">Each item below is checked automatically from your saved progress. Tick means done.</p>
+    <ul class="portfolio-checklist-list" id="portfolioChecklist">
+      <li class="portfolio-checklist-item"><span class="checklist-dot">○</span><span>Loading checklist…</span></li>
+    </ul>
+  </div>
+
+  <!-- What to do next -->
+  <div class="card">
+    <h2 class="section-title" style="margin-top:0">What to do next</h2>
+    <ul class="list">
+      <li>Compile all template evidence into your portfolio folder.</li>
+      <li>Ensure all prototype files and test recordings are labelled and shareable.</li>
+      <li>Use Print on any phase page to export templates as PDF if required.</li>
+      <li>Share the portfolio folder link with your supervisor for final sign-off.</li>
+      <li>Check all team members have reviewed the reflection and improvement plan.</li>
+    </ul>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="portfolio-action-row">
+    <button class="btn ghost" type="button" id="portfolioProgressBtn">View Progress</button>
+    <button class="btn ghost" type="button" id="portfolioPrintBtn">Print This Page</button>
+  </div>
+  <a class="btn primary full" href="dashboard.html" style="margin-top:10px">Back to Dashboard</a>
+
+</main>
+<nav aria-label="Main navigation" class="bottom-nav">
+  <a class="nav-item" data-nav="dashboard" href="dashboard.html"><img class="nav-icon-img" alt="" src="https://iili.io/Cd3ksWu.png"/><span class="nav-label">Dashboard</span></a>
+  <a class="nav-item" data-nav="learn" href="phase01-empathy.html"><img class="nav-icon-img" alt="" src="https://iili.io/Cd3wdpn.png"/><span class="nav-label">Learn</span></a>
+  <a class="nav-item" data-nav="projects" href="projects.html"><img class="nav-icon-img" alt="" src="https://iili.io/Cd3kixe.png"/><span class="nav-label">Projects</span></a>
+  <a class="nav-item" data-nav="progress" href="progress.html"><img class="nav-icon-img" alt="" src="https://iili.io/Cd3k4O7.png"/><span class="nav-label">Progress</span></a>
+  <a class="nav-item" data-nav="profile" href="profile.html"><img class="nav-icon-img" alt="" src="https://iili.io/Cd3k6b9.png"/><span class="nav-label">Profile</span></a>
+</nav>
+</div>
+<script src="js/smartdt-assets.js"></script>
+<script src="js/smartdt.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Progress — Smart DT Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/smartdt.css"/>
+<link rel="stylesheet" href="css/smartdt-responsive-fix.css"/>
+<link rel="stylesheet" href="css/smartdt-shell-patch.css"/>
+</head>
+<body data-page="progress">
+<div class="app">
+<header class="header">
+  <a class="brand" href="dashboard.html"><span class="brand-logo brand-logo-inline"><img alt="" src="https://iili.io/Cd3i8QV.png"/></span><span class="brand-text">Smart DT<br>Project</span></a>
+  <div class="header-actions"><span class="pill lang-pill"><span class="pill-symbol" aria-hidden="true">🌐</span> EN</span><span class="avatar">JM</span></div>
+</header>
+<main class="page progress-page">
+  <section class="hero-card compact"><img alt="Progress hero" class="hero-img-wide" src="https://iili.io/CdztgEP.png"/></section>
+  <section class="intro-card">
+    <p class="eyebrow">My Progress</p>
+    <h1 class="intro-title">Your Design Thinking <span class="teal">journey tracker.</span></h1>
+    <p class="intro-text">Track quiz scores, submitted phases and achievement badges from one screen.</p>
+  </section>
+
+  <section class="overall-card-v9 card">
+    <div class="overall-head-v9"><div><p class="card-label">Overall Progress</p><h2 id="progressDoneText">0 of 5 phases complete</h2></div><div class="overall-pct-v9"><strong id="progressPct">0%</strong><span>completed</span></div></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </section>
+
+  <section class="progress-section-v9">
+    <div class="section-row-v9"><h2 class="section-title">Phase Progress</h2><button type="button" class="btn ghost mini-btn" id="continuePhaseBtn">Continue</button></div>
+    <div id="phaseProgressList" class="phase-list-v9"></div>
+  </section>
+
+  <section class="progress-section-v9">
+    <div class="section-row-v9"><h2 class="section-title">Achievements</h2><a class="btn-text" href="profile.html">View Profile</a></div>
+    <div id="badgeGrid" class="badge-grid-v9"></div>
+  </section>
+</main>
+<nav aria-label="Main navigation" class="bottom-nav">
+  <a class="nav-item" data-nav="dashboard" href="dashboard.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3ksWu.png"/><span class="nav-label">Dashboard</span></a>
+  <a class="nav-item" data-nav="learn" href="phase01-empathy.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3wdpn.png"/><span class="nav-label">Learn</span></a>
+  <a class="nav-item" data-nav="projects" href="projects.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3kixe.png"/><span class="nav-label">Projects</span></a>
+  <a class="nav-item" data-nav="progress" href="progress.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3k4O7.png"/><span class="nav-label">Progress</span></a>
+  <a class="nav-item" data-nav="profile" href="profile.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3k6b9.png"/><span class="nav-label">Profile</span></a>
+</nav>
+</div>
+<script src="js/smartdt-assets.js"></script>
+
+<script src="js/smartdt.js"></script>
+</body>
+</html>

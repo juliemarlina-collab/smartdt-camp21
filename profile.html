@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>My Profile — Smart DT Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/smartdt.css"/><link rel="stylesheet" href="css/smartdt-shell-patch.css"/>
+</head>
+<body data-page="profile">
+<div class="app">
+<header class="header">
+  <a class="brand" href="dashboard.html"><span class="brand-logo brand-logo-inline"><img alt="" src="https://iili.io/Cd3i8QV.png"/></span><span class="brand-text">Smart DT<br>Project</span></a>
+  <div class="header-actions"><span class="pill lang-pill"><span class="pill-symbol" aria-hidden="true">🌐</span> EN</span><span class="avatar">JM</span></div>
+</header>
+<main class="page profile-page">
+  <section class="hero-card compact profile-hero-card"><img alt="My Profile hero" class="hero-img-wide" src="https://iili.io/Cdztr41.png"/></section>
+  <section class="intro-card profile-intro">
+    <p class="eyebrow">My Profile</p>
+    <h1 class="intro-title">Track your role, <span class="teal">progress and achievements.</span></h1>
+    <p class="intro-text">Review your student details, project team, supervisor, evidence progress and reflection records.</p>
+  </section>
+
+  <section class="profile-card-v9 card">
+    <div class="profile-top-v9">
+      <div class="profile-avatar-v9"><span class="profile-initials">ST</span><button class="camera-dot" aria-label="Upload profile photo">+</button></div>
+      <div class="profile-name-block">
+        <h2 class="profile-name student-name">Student</h2>
+        <span class="profile-role-pill">Student · FYP Team Member</span>
+        <button class="btn ghost mini-btn" id="editProfileBtn" type="button">Edit Profile</button>
+      </div>
+    </div>
+    <div class="profile-fields-v9">
+      <div class="profile-field"><span>Registration No.</span><strong data-field="reg">—</strong></div>
+      <div class="profile-field"><span>Class</span><strong data-field="class">—</strong></div>
+      <div class="profile-field"><span>Team</span><strong data-field="team">—</strong></div>
+      <div class="profile-field"><span>Supervisor</span><strong data-field="supervisor">—</strong></div>
+    </div>
+  </section>
+
+  <section class="stats-grid-v9" aria-label="Profile statistics">
+    <div class="stat-card-v9"><img src="https://iili.io/CJ4kdnp.png" alt=""/><strong>1</strong><span>Active<br>Project</span></div>
+    <div class="stat-card-v9"><img src="https://iili.io/CJ4kHtR.png" alt=""/><strong id="profileTasks">5</strong><span>Pending<br>Tasks</span></div>
+    <div class="stat-card-v9"><img src="https://iili.io/CJ4ep9a.png" alt=""/><strong id="profileEvidence">0</strong><span>Completed<br>Phases</span></div>
+    <div class="stat-card-v9"><img src="https://iili.io/CJ4k3PI.png" alt=""/><strong id="profileFeedback">0</strong><span>Quiz<br>Passed</span></div>
+    <div class="stat-card-v9"><img src="https://iili.io/CJ4k9wv.png" alt=""/><strong id="profileBadges">0</strong><span>Badges<br>Earned</span></div>
+  </section>
+
+  <section class="menu-list-v9">
+    <button class="menu-row-v9" type="button"><span class="menu-ico teal"><img src="https://iili.io/Cd3sIyb.png" alt=""/></span><span><strong>Personal Information</strong><small>Student details and contact information</small></span><b>›</b></button>
+    <button class="menu-row-v9" type="button"><span class="menu-ico orange"><img src="https://iili.io/Cd3sIyb.png" alt=""/></span><span><strong>Team & Roles</strong><small>Team members and assigned responsibilities</small></span><b>›</b></button>
+    <button class="menu-row-v9" type="button"><span class="menu-ico teal"><img src="https://iili.io/Cd3sAwx.png" alt=""/></span><span><strong>My Reflections</strong><small>Final reflection and design thinking notes</small></span><b>›</b></button>
+    <a class="menu-row-v9" href="progress.html"><span class="menu-ico yellow"><img src="https://iili.io/Cd3soF9.png" alt=""/></span><span><strong>Achievements</strong><small>Badge milestones and completion status</small></span><b>›</b></a>
+    <button class="menu-row-v9" type="button"><span class="menu-ico grey"><img src="https://iili.io/Cd3s7nV.png" alt=""/></span><span><strong>Settings</strong><small>Language, notifications and preferences</small></span><b>›</b></button>
+    <button class="menu-row-v9 logout" id="logoutBtn" type="button"><span class="menu-ico red"><img src="https://iili.io/Cd3sz8u.png" alt=""/></span><span><strong>Log Out</strong><small>Sign out from this device</small></span><b>›</b></button>
+  </section>
+</main>
+<nav aria-label="Main navigation" class="bottom-nav">
+  <a class="nav-item" data-nav="dashboard" href="dashboard.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3ksWu.png"/><span class="nav-label">Dashboard</span></a>
+  <a class="nav-item" data-nav="learn" href="phase01-empathy.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3wdpn.png"/><span class="nav-label">Learn</span></a>
+  <a class="nav-item" data-nav="projects" href="projects.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3kixe.png"/><span class="nav-label">Projects</span></a>
+  <a class="nav-item" data-nav="progress" href="progress.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3k4O7.png"/><span class="nav-label">Progress</span></a>
+  <a class="nav-item" data-nav="profile" href="profile.html"><img alt="" class="nav-icon-img" src="https://iili.io/Cd3k6b9.png"/><span class="nav-label">Profile</span></a>
+</nav>
+</div>
+<script src="js/smartdt-assets.js"></script>
+<script src="js/smartdt.js"></script>
+</body>
+</html>
