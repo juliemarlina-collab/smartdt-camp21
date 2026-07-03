@@ -58,11 +58,15 @@
       payload
     });
     store.set('df_last_sync_action', action);
-    store.set('df_last_sync_status', 'pending');
+    setSyncStatus('pending', 'Saved on this device. Syncing to Google Sheets...');
     try {
       if(useBeacon && navigator.sendBeacon) {
         const ok = navigator.sendBeacon(APPS_SCRIPT_WEB_APP_URL, new Blob([body], { type: 'text/plain;charset=UTF-8' }));
-        store.set('df_last_sync_status', ok ? 'sent' : 'beacon_failed');
+        if(ok){
+          setSyncStatus('synced', 'Synced to Google Sheets.');
+        } else {
+          setSyncStatus('failed', 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
+        }
         return Promise.resolve(ok);
       }
       return fetch(APPS_SCRIPT_WEB_APP_URL, {
@@ -73,19 +77,20 @@
         headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body
       }).then(() => {
-        store.set('df_last_sync_status', 'sent');
-        store.set('df_last_sync_time', new Date().toISOString());
+        setSyncStatus('synced', 'Synced to Google Sheets.');
         return true;
       }).catch(err => {
         console.warn('Smart DT Google Sheets sync failed:', err);
-        store.set('df_last_sync_status', 'failed');
+        setSyncStatus('failed', 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
         store.set('df_last_sync_error', String(err && err.message || err));
+        toast('Sync failed. Your work is still saved on this device.');
         return false;
       });
     } catch(err) {
       console.warn('Smart DT Google Sheets sync error:', err);
-      store.set('df_last_sync_status', 'failed');
+      setSyncStatus('failed', 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
       store.set('df_last_sync_error', String(err && err.message || err));
+      toast('Sync failed. Your work is still saved on this device.');
       return Promise.resolve(false);
     }
   }
@@ -108,10 +113,10 @@
     ],
     '02': [
       {q:'What is the MAIN output of the Define phase?',a:0,o:['A clear user-centred problem statement based on research','A finished prototype','A list of random ideas','A final presentation script']},
-      {q:'Should the problem statement include a solution?',a:1,o:['True — include the app idea immediately','False — define the problem only, never the solution','True — supervisors prefer solutions first','False — skip the problem statement']},
+      {q:'Should the problem statement include a solution?',a:1,o:['True — include the app idea immediately','False — define the problem only, never the solution','True — project guides prefer evidence first','False — skip the problem statement']},
       {q:'Which HMW question is correctly formatted?',a:2,o:['We should build a canteen app.','Can you make students eat faster?','How might we help students eat lunch faster on campus?','Why is the canteen crowded?']},
       {q:'Can you skip Define if Empathy was thorough enough?',a:1,o:['True — Empathy is enough','False — Empathy and Define serve different purposes','True — go straight to Ideation','False — skip Ideation instead']},
-      {q:'What should a good problem statement focus on?',a:1,o:['The technology your team likes','The user’s need and the insight behind it','The cheapest available solution','The supervisor’s preferred product']}
+      {q:'What should a good problem statement focus on?',a:1,o:['The technology your team likes','The user’s need and the insight behind it','The cheapest available solution','The project guide’s preferred direction']}
     ],
     '03': [
       {q:'What is the golden rule of brainstorming?',a:0,o:['No judging or evaluating ideas during the session','Choose the cheapest idea first','Only write ideas from the team leader','Start building the prototype immediately']},
@@ -125,14 +130,14 @@
       {q:'Must the prototype be polished before testing with users?',a:1,o:['True — it must look perfect','False — rough prototypes generate honest feedback','True — users cannot test rough ideas','False — do not test at all']},
       {q:'What is the MAIN purpose of building a prototype?',a:2,o:['To decorate the final report','To replace user testing','To test the idea and learn from real user feedback','To avoid improving the idea']},
       {q:'If a prototype fails during testing, has the project failed?',a:1,o:['True — failure means stop the project','False — failure reveals problems to improve','True — delete the version log','False — ignore all feedback']},
-      {q:'What should the Version Log record for each iteration?',a:3,o:['Only the team members names','Only the final score','Only the supervisor comment','What was built, feedback received, and what to improve next']}
+      {q:'What should the Version Log record for each iteration?',a:3,o:['Only the team members names','Only the final score','Only the project guide comment','What was built, feedback received, and what to improve next']}
     ],
     '05': [
-      {q:'Who should you select as test participants?',a:1,o:['Your friends and family for convenience','Real target users who match the user group studied in Empathy','Only your classmates','Your supervisor and lecturers']},
+      {q:'Who should you select as test participants?',a:1,o:['Your friends and family for convenience','Real target users who match the user group studied in Empathy','Only your classmates','Your project guide and lecturers']},
       {q:'Should you explain how the prototype works before testing?',a:1,o:['True — explain every feature first','False — never explain first; watching struggle is useful data','True — users cannot test without full explanation','False — cancel the test instead']},
       {q:'What is most important to do during a user test?',a:2,o:['Persuade users to like the prototype','Change the design during the test','Observe and listen without interfering','Ask only yes/no questions']},
       {q:'If testers complete the task, is testing done?',a:1,o:['True — completion means no more analysis','False — also identify friction points and improvement opportunities','True — submit immediately','False — restart from Empathy']},
-      {q:'What should happen AFTER collecting all test feedback?',a:1,o:['Submit directly to supervisor without analysis','Analyse feedback patterns, create an improvement plan, then reflect','Rebuild the entire prototype from scratch','Present results to class immediately']}
+      {q:'What should happen AFTER collecting all test feedback?',a:1,o:['Complete the phase without analysing feedback','Analyse feedback patterns, create an improvement plan, then reflect','Rebuild the entire prototype from scratch','Present results to class immediately']}
     ]
   };
 
@@ -157,6 +162,12 @@
     el.textContent = msg;
     el.classList.add('show');
     setTimeout(()=>el.classList.remove('show'),2600);
+  }
+
+  function setSyncStatus(status, message){
+    store.set('df_last_sync_status', status);
+    store.set('df_last_sync_message', message);
+    store.set('df_last_sync_time', new Date().toISOString());
   }
 
   function hydrateHeader(){
@@ -186,7 +197,7 @@
   function quizPassed(n){ const s = parseInt(quizScore(n)||'-1',10); return s >= 3 || store.get('df_unlocked_phase'+n)==='true'; }
   function completedCount(){ let c=0; ['01','02','03','04','05'].forEach(n=>{ if(isPhaseSubmitted(n)) c++; }); return c; }
   function currentPhase(){
-    // Completion-based only. No supervisor gate dependency.
+    // Completion-based only. No approval gate dependency.
     for(const n of ['01','02','03','04','05']){
       if(isPhaseSubmitted(n)) continue;
       return n;
@@ -202,6 +213,7 @@
         const data=Object.fromEntries(new FormData(reg));
         Object.entries(data).forEach(([k,v])=>store.set(k,(v||'').trim()));
         store.set('df_registered','true');
+        setSyncStatus('saved', 'Saved on this device.');
         syncToGoogleSheets('student_registration', { form: data }, true);
         location.href='dashboard.html';
       });
@@ -214,6 +226,7 @@
         Object.entries(data).forEach(([k,v])=>store.set(k,(v||'').trim()));
         store.set('df_registered','true');
         if(!store.get('df_student_name')) store.set('df_student_name',(data.df_email||'Student').split('@')[0]);
+        setSyncStatus('saved', 'Saved on this device.');
         syncToGoogleSheets('student_login', { form: data }, true);
         location.href='dashboard.html';
       });
@@ -233,7 +246,7 @@
     hydrateHeader();
     $('.greeting-name') && ($('.greeting-name').textContent = store.get('df_student_name') || 'Student');
     $('.project-title') && ($('.project-title').textContent = store.get('df_project_name') || 'My FYP Project');
-    const meta = `${store.get('df_team') || 'My Team'} · ${store.get('df_supervisor') || 'My Supervisor'}`;
+    const meta = `${store.get('df_team') || 'My Team'} · ${store.get('df_supervisor') || 'My Project Guide'}`;
     $('.project-meta') && ($('.project-meta').textContent = meta);
     const pct = Math.round(completedCount()/5*100);
     $$('.progress-fill').forEach(e=>e.style.width=pct+'%');
@@ -464,6 +477,7 @@
         expected.forEach(id=>{ const panel=document.getElementById(id); if(panel) allData[id]=formValues(panel); });
         store.setJson('df_phase'+ph+'_submission', { submittedAt:new Date().toISOString(), templates:allData });
         store.set('df_submitted_phase'+ph,'true');
+        setSyncStatus('saved', 'Saved on this device.');
         syncToGoogleSheets('phase_submit', { phase: ph, submission: allData, submittedAt: new Date().toISOString(), nextPhase: NEXT_PHASE[ph] || null });
         const next = NEXT_PHASE[ph];
         showSubmitSuccess(ph,next);
@@ -780,22 +794,22 @@
     }
     card.innerHTML=`
       <div class="success-mark">✓</div>
-      <h2>Phase ${ph} Submitted Successfully</h2>
+      <h2>Phase ${ph} Completed Successfully</h2>
       <p>Phase completed successfully. Your work has been saved on this device. You may continue to the next phase.</p>
       ${nextHtml}`;
     panel.prepend(card);
     card.scrollIntoView({behavior:'smooth',block:'start'});
-    toast(`Phase ${ph} submitted.`);
+    toast(`Phase ${ph} completed.`);
   }
 
-  // ── Gate approval logic removed: no supervisor gate in this app ─────
+  // ── Gate approval logic removed: no approval gate in this app ─────
   function isGateApproved(){ return true; }
   function isGateApprovedByNum(){ return true; }
   function checkGateApproval(){ return Promise.resolve(true); }
   function pollGateApproval(){ return null; }
 
   function setupGateGuard(){
-    // No supervisor gate in this app. Function kept as a safe no-op
+    // No approval gate in this app. Function kept as a safe no-op
     // so any existing call sites (e.g. init()) do not error.
     return;
   }
@@ -813,7 +827,7 @@
     $('[data-field="reg"]') && ($('[data-field="reg"]').textContent=store.get('df_reg_no')||store.get('df_registration_no')||'Not added');
     $('[data-field="class"]') && ($('[data-field="class"]').textContent=store.get('df_class')||'Not added');
     $('[data-field="team"]') && ($('[data-field="team"]').textContent=store.get('df_team')||'My Team');
-    $('[data-field="supervisor"]') && ($('[data-field="supervisor"]').textContent=store.get('df_supervisor')||'My Supervisor');
+    $('[data-field="supervisor"]') && ($('[data-field="supervisor"]').textContent=store.get('df_supervisor')||'My Project Guide');
     // Show project name field if present in HTML
     $('[data-field="project"]') && ($('[data-field="project"]').textContent=store.get('df_project_name')||'Not added');
     $('#profileTasks') && ($('#profileTasks').textContent=pendingTasks());
@@ -937,7 +951,7 @@
               </div>
               <div class="profile-field" style="grid-column:1/-1">
                 <span>Sync Status</span>
-                <strong style="font-weight:600;font-size:12px">Last action: ${escapeHtml(store.get('df_last_sync_action')||'None')} · Status: ${escapeHtml(store.get('df_last_sync_status')||'—')}</strong>
+                <strong style="font-weight:600;font-size:12px">${escapeHtml(store.get('df_last_sync_message')||'No sync activity yet.')}</strong><small style="display:block;margin-top:4px;color:var(--muted)">Last action: ${escapeHtml(store.get('df_last_sync_action')||'None')} · Status: ${escapeHtml(store.get('df_last_sync_status')||'—')}</small>
               </div>
               <div style="grid-column:1/-1;margin-top:8px">
                 <button class="btn ghost" style="font-size:12px;min-height:40px;width:100%" id="clearPhotoBtn">Remove Profile Photo</button>
@@ -1005,7 +1019,7 @@
   function enableProfileEdit(){
     const card=$('.profile-card-v9'); if(!card || card.classList.contains('edit-mode')) return;
     card.classList.add('edit-mode');
-    const fields={reg:['df_reg_no','Registration No.'], class:['df_class','Class'], team:['df_team','Team'], supervisor:['df_supervisor','Supervisor']};
+    const fields={reg:['df_reg_no','Registration No.'], class:['df_class','Class'], team:['df_team','Team'], supervisor:['df_supervisor','Project Guide']};
     Object.entries(fields).forEach(([key,[storeKey,label]])=>{ const el=$(`[data-field="${key}"]`); if(el) el.innerHTML=`<input aria-label="${label}" value="${escapeAttr(store.get(storeKey)||'')}" data-edit-key="${storeKey}" placeholder="${label}">`; });
     const actions=document.createElement('div'); actions.className='edit-actions'; actions.innerHTML='<button class="btn teal" type="button" id="saveProfileEdit">Save Details</button><button class="btn ghost" type="button" id="cancelProfileEdit">Cancel</button>'; card.appendChild(actions);
     $('#saveProfileEdit').onclick=()=>{ $$('[data-edit-key]').forEach(i=>store.set(i.dataset.editKey,i.value.trim())); syncToGoogleSheets('profile_update', { profile: studentPayload() }, true); location.reload(); };
@@ -1045,12 +1059,12 @@
   function badgeData(){
     const d=completedCount();
     return [
-      {name:'DT Explorer', img:'https://iili.io/CdFdugj.png', earned:d>=3, text:'3 of 5 phases submitted'},
+      {name:'DT Explorer', img:'https://iili.io/CdFdugj.png', earned:d>=3, text:'3 of 5 phases completed'},
       {name:'Empathy Champion', img:'https://iili.io/CdFdnz7.png', earned:isPhaseSubmitted('01'), text:'Phase 01 completed'},
       {name:'Problem Framer', img:'https://iili.io/CdFdIqu.png', earned:isPhaseSubmitted('02'), text:'Phase 02 completed'},
-      {name:'Idea Generator', img:'https://iili.io/CdFdqe2.png', earned:isPhaseSubmitted('03'), text:'Ideation submitted'},
-      {name:'Prototype Builder', img:'https://iili.io/CdFdT0b.png', earned:isPhaseSubmitted('04'), text:'Prototype evidence submitted'},
-      {name:'User Tester', img:'https://iili.io/CdFdRdx.png', earned:isPhaseSubmitted('05'), text:'Test phase submitted'},
+      {name:'Idea Generator', img:'https://iili.io/CdFdqe2.png', earned:isPhaseSubmitted('03'), text:'Ideation completed'},
+      {name:'Prototype Builder', img:'https://iili.io/CdFdT0b.png', earned:isPhaseSubmitted('04'), text:'Prototype evidence completed'},
+      {name:'User Tester', img:'https://iili.io/CdFdRdx.png', earned:isPhaseSubmitted('05'), text:'Test phase completed'},
       {name:'DT Graduate', img:'https://iili.io/CdFdoX9.png', earned:d>=5, text:'All phases completed'},
       {name:'Full Portfolio', img:'https://iili.io/CdFdBbS.png', earned:d>=5, text:'Ready for portfolio'}
     ];
@@ -1062,7 +1076,7 @@
     const name  = store.get('df_student_name') || 'Student';
     const proj  = store.get('df_project_name') || 'My FYP Project';
     const team  = store.get('df_team')         || 'My Team';
-    const sup   = store.get('df_supervisor')   || 'My Supervisor';
+    const sup   = store.get('df_supervisor')   || 'My Project Guide';
     const done  = completedCount();
     const badges = badgeData().filter(b=>b.earned);
     const allDone = done >= 5;
