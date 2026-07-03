@@ -1,0 +1,129 @@
+/* ==========================================================
+   SMART DT — VISUAL SHELL STANDARDISATION PATCH (v1)
+   Scope ONLY: Header sizing / Hero card sizing / Bottom nav sizing
+   Does NOT touch: intro text, template fields, quiz section,
+   JS logic, phase flow, localStorage, gate logic, classes/IDs.
+
+   TEST FILE — link this AFTER smartdt.css (and after
+   smartdt-responsive-fix.css if that page also loads it) so
+   these rules win the cascade during testing.
+
+   Step 1: this file
+   Step 2: test on progress.html
+   Step 3: test on phase01-empathy.html
+   Step 4: once confirmed, fold into smartdt.css and delete the
+           old conflicting header/hero/bottom-nav rules there,
+           then remove this <link> and smartdt-responsive-fix.css
+   ========================================================== */
+
+:root{
+  --header-h: 76px;
+  --nav-h: 84px;
+}
+
+/* ---------- 1. HEADER ---------- */
+.header{
+  height: var(--header-h) !important;
+  min-height: var(--header-h) !important;
+  padding: 0 28px !important;
+}
+.brand-logo img,
+.brand-logo-inline img{
+  width: 50px !important;
+  height: 50px !important;
+}
+.brand-text{
+  font-size: 19px !important;
+  font-weight: 900 !important;
+}
+.pill,
+.icon-btn,
+.avatar{
+  height: 46px !important;
+}
+
+@media (max-width:720px){
+  :root{
+    --header-h: 72px;
+  }
+  .header{
+    padding: 0 16px !important;
+  }
+  .brand-logo img,
+  .brand-logo-inline img{
+    width: 42px !important;
+    height: 42px !important;
+  }
+  .brand-text{
+    font-size: 14px !important;
+  }
+}
+
+/* ---------- 2. HERO CARD ---------- */
+.hero-card{
+  background:#fff !important;
+  border-radius:30px !important;
+  padding:18px !important;
+  margin:20px auto !important;
+  max-width:900px !important;
+  width:100% !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  box-shadow: var(--shadow) !important;
+  overflow:hidden !important;
+}
+.hero-card img{
+  width:100% !important;
+  max-width:820px !important;
+  height:clamp(170px, 34vw, 360px) !important;
+  object-fit:contain !important;
+  border-radius:14px !important;
+}
+
+@media (max-width:720px){
+  .hero-card{
+    border-radius:24px !important;
+    padding:12px !important;
+    margin-top:14px !important;
+  }
+}
+
+/* ---------- 3. BOTTOM NAV ---------- */
+.bottom-nav{
+  height: var(--nav-h) !important;
+}
+.nav-item img,
+.nav-icon-img,
+.nav-item svg,
+.bottom-nav img{
+  width:32px !important;
+  height:32px !important;
+  max-width:32px !important;
+  max-height:32px !important;
+  object-fit:contain !important;
+}
+.bottom-nav .nav-label,
+.nav-label{
+  font-size:11px !important;
+  font-weight:800 !important;
+}
+
+@media (max-width:720px){
+  :root{
+    --nav-h: 72px;
+  }
+  .nav-item img,
+  .nav-icon-img,
+  .nav-item svg,
+  .bottom-nav img{
+    width:26px !important;
+    height:26px !important;
+    max-width:26px !important;
+    max-height:26px !important;
+  }
+  .bottom-nav .nav-label,
+  .nav-label{
+    font-size:10px !important;
+  }
+}
