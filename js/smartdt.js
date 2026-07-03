@@ -128,7 +128,7 @@
       {q:'What should the Version Log record for each iteration?',a:3,o:['Only the team members names','Only the final score','Only the supervisor comment','What was built, feedback received, and what to improve next']}
     ],
     '05': [
-      {q:'Who should you select as test participants?',a:1,o:['Your friends and family for convenience','Real target users who match the Persona from Phase 01','Only your classmates','Your supervisor and lecturers']},
+      {q:'Who should you select as test participants?',a:1,o:['Your friends and family for convenience','Real target users who match the user group studied in Empathy','Only your classmates','Your supervisor and lecturers']},
       {q:'Should you explain how the prototype works before testing?',a:1,o:['True — explain every feature first','False — never explain first; watching struggle is useful data','True — users cannot test without full explanation','False — cancel the test instead']},
       {q:'What is most important to do during a user test?',a:2,o:['Persuade users to like the prototype','Change the design during the test','Observe and listen without interfering','Ask only yes/no questions']},
       {q:'If testers complete the task, is testing done?',a:1,o:['True — completion means no more analysis','False — also identify friction points and improvement opportunities','True — submit immediately','False — restart from Empathy']},
@@ -901,7 +901,7 @@
           return `
             <div class="profile-info-panel">
               <div class="profile-field"><span>Team Name</span><strong>${escapeHtml(team)}</strong></div>
-              <div class="profile-field"><span>Supervisor</span><strong>${escapeHtml(sup)}</strong></div>
+              <div class="profile-field"><span>Project Guide</span><strong>${escapeHtml(sup)}</strong></div>
               <p style="font-size:11.5px;color:var(--muted);margin-top:8px">To update these details, use <strong>Edit Profile</strong> above.</p>
             </div>`;
         }
@@ -1076,7 +1076,7 @@
         +'<div>'
         +'<h2 class="portfolio-student-name">'+escapeHtml(name)+'</h2>'
         +'<p class="portfolio-student-meta">'+escapeHtml(proj)+'</p>'
-        +'<p class="portfolio-student-meta" style="margin-top:2px">'+escapeHtml(team)+' &middot; Supervisor: '+escapeHtml(sup)+'</p>'
+        +'<p class="portfolio-student-meta" style="margin-top:2px">'+escapeHtml(team)+' &middot; Project Guide: '+escapeHtml(sup)+'</p>'
         +'</div></div>'
         +'<div class="portfolio-stats-row">'
         +'<div class="portfolio-stat '+(allDone?'done':'')+'"><strong>'+done+'/5</strong><span>Phases<br>Completed</span></div>'
