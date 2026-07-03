@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Master Template Reference — Smart DT CAMP21</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/smartdt-master.css">
+<link rel="stylesheet" href="css/smartdt-shell-patch.css">
+<style>
+  /* Reference-page-only helpers (not part of the design system) */
+  .ref-section{ margin:26px 0 10px; }
+  .ref-label{
+    display:inline-block; background:var(--navy); color:#fff;
+    font-size:12px; font-weight:900; letter-spacing:.06em;
+    text-transform:uppercase; padding:6px 14px; border-radius:999px; margin-bottom:10px;
+  }
+  .ref-note{ font-size:13px; color:var(--muted); margin:6px 0 12px; }
+  .swatches{ display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:10px; }
+  .swatch{ border-radius:18px; border:1px solid var(--line); overflow:hidden; background:#fff; box-shadow:var(--shadow-soft); }
+  .swatch .chipc{ height:52px; }
+  .swatch .meta{ padding:8px 10px; font-size:11px; font-weight:800; color:var(--navy); }
+  .swatch .meta span{ display:block; color:var(--muted); font-weight:600; }
+  code{ background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:2px 7px; font-size:12.5px; color:var(--navy); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER (canonical) -->
+  <header class="header">
+    <a class="brand" href="dashboard.html">
+      <span class="brand-logo"><img src="assets/brand/logo-icon.svg" alt="" onerror="this.style.display='none'"></span>
+      <span class="brand-text">Smart DT<br>Master Reference</span>
+    </a>
+    <div class="header-actions">
+      <span class="pill lang-pill">EN</span>
+      <span class="avatar">ST</span>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- INTRO CARD (canonical) -->
+    <section class="intro-card">
+      <div class="eyebrow">Design System · v1</div>
+      <div class="intro-title">One design. <span class="teal">Every page.</span></div>
+      <p class="intro-text">This page is the living reference for the Smart DT CAMP21 design system. Every component below is rendered by <code style="background:rgba(255,255,255,.15);border:0;color:#fff">css/smartdt-master.css</code> — copy the markup, link the stylesheet, and any new page follows the same design automatically.</p>
+    </section>
+
+    <!-- TOKENS -->
+    <div class="ref-section">
+      <span class="ref-label">1 · Color Tokens</span>
+      <p class="ref-note">Always use <code>var(--token)</code> — never hardcode hex values in page CSS.</p>
+      <div class="swatches">
+        <div class="swatch"><div class="chipc" style="background:#082B66"></div><div class="meta">--navy<span>#082B66</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#16B8AA"></div><div class="meta">--teal<span>#16B8AA</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#FF6236"></div><div class="meta">--orange<span>#FF6236</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#29E1D1"></div><div class="meta">--teal-bright<span>#29E1D1</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#EEF5FA"></div><div class="meta">--bg<span>#EEF5FA</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#F8FBFE"></div><div class="meta">--soft<span>#F8FBFE</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#DDE8F0"></div><div class="meta">--line<span>#DDE8F0</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#061A3A"></div><div class="meta">--text<span>#061A3A</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#68778F"></div><div class="meta">--muted<span>#68778F</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#FFF3D6"></div><div class="meta">--tint-yellow<span>#FFF3D6</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#FFF1F1"></div><div class="meta">--tint-red<span>#FFF1F1</span></div></div>
+        <div class="swatch"><div class="chipc" style="background:#E9FAF7"></div><div class="meta">--tint-green<span>#E9FAF7</span></div></div>
+      </div>
+      <p class="ref-note" style="margin-top:12px">Font: <b>Poppins</b> (weights 400–900) · Shell sizes: header <code>--header-h</code> 76/72px, nav <code>--nav-h</code> 84/72/86px, side padding <code>--page-x</code> 28/16/32px · Radii: hero 30 · card 26 · box 24 · drop 22 · tile 18 · input 17 · pill 999.</p>
+    </div>
+
+    <!-- HERO -->
+    <div class="ref-section">
+      <span class="ref-label">2 · Hero Card</span>
+      <p class="ref-note"><code>.hero-card &gt; img</code> — max 900px wide, image clamps 170–360px tall.</p>
+      <section class="hero-card">
+        <img src="infographic/phase01-empathy-infographic.jpg" alt="Hero example" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'Hero image area (900px max)',style:'padding:60px;color:#68778F;font-weight:800'}))">
+      </section>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="ref-section">
+      <span class="ref-label">3 · Buttons</span>
+      <p class="ref-note"><code>.btn</code> (navy, default) · <code>.btn.orange</code> (call-to-action) · <code>.btn.secondary</code> (light).</p>
+      <div class="card">
+        <div class="btn-row">
+          <button class="btn" type="button">Save Template</button>
+          <button class="btn orange" type="button">Start Quiz</button>
+        </div>
+        <div class="btn-row" style="grid-template-columns:1fr">
+          <button class="btn secondary" type="button">← Previous</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHIPS -->
+    <div class="ref-section">
+      <span class="ref-label">4 · Chip Navigation</span>
+      <p class="ref-note"><code>.template-nav &gt; .chip</code>, active chip gets <code>.active</code>.</p>
+      <nav class="template-nav">
+        <button class="chip active" type="button">T01</button>
+        <button class="chip" type="button">T02</button>
+        <button class="chip" type="button">T03</button>
+        <button class="chip" type="button">T04</button>
+      </nav>
+    </div>
+
+    <!-- QUICK FACT -->
+    <div class="ref-section">
+      <span class="ref-label">5 · Quick-Fact Card</span>
+      <p class="ref-note">The 4-box pattern above every template: default · <code>.warn</code> · <code>.enough</code> · <code>.case</code>.</p>
+      <div class="quick-fact">
+        <div class="qf-head">
+          <div class="qf-icon">❤️</div>
+          <div>
+            <div class="qf-title">Component title goes here.</div>
+            <div class="qf-sub">Short subtitle · dot · separated</div>
+          </div>
+        </div>
+        <div class="qf-grid">
+          <div class="qf-item"><span class="mini-emoji">✍️</span><div class="qf-copy"><b>What to write</b>Guidance text for the student.</div></div>
+          <div class="qf-item warn"><span class="mini-emoji">⚠️</span><div class="qf-copy"><b>Common mistake</b>What to avoid.</div></div>
+          <div class="qf-item enough"><span class="mini-emoji">✅</span><div class="qf-copy"><b>Enough when</b>Completion criteria.</div></div>
+          <div class="qf-item case"><span class="mini-emoji">👤</span><div class="qf-copy"><b>Mini case</b>Makcik the Hall Cleaner example.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUIDE DROP -->
+    <div class="ref-section">
+      <span class="ref-label">6 · Guide Dropdown</span>
+      <p class="ref-note"><code>details.guide-drop</code> with teal <code>.guide-link</code> inside.</p>
+      <details class="guide-drop">
+        <summary>Need help with this template?</summary>
+        <div class="guide-body">
+          <p>Explanation of when to open the full guide.</p>
+          <a class="guide-link" href="#">Open Full Guide</a>
+        </div>
+      </details>
+    </div>
+
+    <!-- FORMS -->
+    <div class="ref-section">
+      <span class="ref-label">7 · Form Fields</span>
+      <p class="ref-note">Inputs use <code>--r-input</code> radius; focus ring is teal. Grid: <code>.form-grid</code> (2-col, 1-col on mobile).</p>
+      <div class="card">
+        <div class="form-grid">
+          <div><label>Text input</label><input type="text" placeholder="Type here"></div>
+          <div><label>Select</label><select><option>Option A</option><option>Option B</option></select></div>
+        </div>
+        <label>Textarea</label>
+        <textarea placeholder="Longer answer here. Data hooks: add data-key=&quot;tXX_field&quot; on real pages."></textarea>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="ref-section">
+      <span class="ref-label">8 · Quiz Option States</span>
+      <p class="ref-note"><code>.option</code> — states <code>.selected</code>, <code>.correct</code>, <code>.wrong</code>.</p>
+      <div class="quiz-card">
+        <div class="quiz-q">Which state is which?</div>
+        <button class="option" type="button">Default option</button>
+        <button class="option selected" type="button">Selected option</button>
+        <button class="option correct" type="button">Correct answer</button>
+        <button class="option wrong" type="button">Wrong answer</button>
+      </div>
+    </div>
+
+    <!-- BADGE -->
+    <div class="ref-section">
+      <span class="ref-label">9 · Badge Card</span>
+      <p class="ref-note">Phase completion celebration. Real pages add badge image + action buttons.</p>
+      <div class="badge-card">
+        <div style="font-size:42px">🏅</div>
+        <h3>Phase Complete!</h3>
+        <p>Congratulations message and next-step guidance for the student.</p>
+      </div>
+    </div>
+
+    <!-- USAGE -->
+    <div class="ref-section">
+      <span class="ref-label">10 · How to Build a New Page</span>
+      <div class="card">
+        <p style="margin-bottom:10px"><b style="color:var(--navy)">1.</b> Link Poppins, then <code>css/smartdt-master.css</code>, then <code>css/smartdt-shell-patch.css</code> (always last — it is the final shell authority).</p>
+        <p style="margin-bottom:10px"><b style="color:var(--navy)">2.</b> Wrap the page in <code>.app</code> → <code>.header</code> + <code>.page</code> + <code>.bottom-nav</code>. Copy those blocks from this file.</p>
+        <p style="margin-bottom:10px"><b style="color:var(--navy)">3.</b> Compose content from the components above. Use tokens for any custom touches.</p>
+        <p><b style="color:var(--navy)">4.</b> Never hardcode colors, radii or shell sizes. If a value isn't a token, ask whether it should be.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- BOTTOM NAV (canonical) -->
+  <nav class="bottom-nav">
+    <a class="nav-item active" href="dashboard.html"><span style="font-size:22px">🏠</span><span class="nav-label">Home</span></a>
+    <a class="nav-item" href="projects.html"><span style="font-size:22px">📁</span><span class="nav-label">Projects</span></a>
+    <a class="nav-item" href="progress.html"><span style="font-size:22px">📊</span><span class="nav-label">Progress</span></a>
+    <a class="nav-item" href="profile.html"><span style="font-size:22px">👤</span><span class="nav-label">Profile</span></a>
+    <a class="nav-item" href="master-template-reference.html"><span style="font-size:22px">🎨</span><span class="nav-label">Design</span></a>
+  </nav>
+
+</div>
+</body>
+</html>
