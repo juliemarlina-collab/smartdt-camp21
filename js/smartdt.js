@@ -58,15 +58,11 @@
       payload
     });
     store.set('df_last_sync_action', action);
-    setSyncStatus('pending', 'Saved on this device. Syncing to Google Sheets...');
+    store.set('df_last_sync_status', 'Saved on this device. Syncing to Google Sheets…');
     try {
       if(useBeacon && navigator.sendBeacon) {
         const ok = navigator.sendBeacon(APPS_SCRIPT_WEB_APP_URL, new Blob([body], { type: 'text/plain;charset=UTF-8' }));
-        if(ok){
-          setSyncStatus('synced', 'Synced to Google Sheets.');
-        } else {
-          setSyncStatus('failed', 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
-        }
+        store.set('df_last_sync_status', ok ? 'Synced to Google Sheets.' : 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
         return Promise.resolve(ok);
       }
       return fetch(APPS_SCRIPT_WEB_APP_URL, {
@@ -77,20 +73,19 @@
         headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body
       }).then(() => {
-        setSyncStatus('synced', 'Synced to Google Sheets.');
+        store.set('df_last_sync_status', 'Synced to Google Sheets.');
+        store.set('df_last_sync_time', new Date().toISOString());
         return true;
       }).catch(err => {
         console.warn('Smart DT Google Sheets sync failed:', err);
-        setSyncStatus('failed', 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
+        store.set('df_last_sync_status', 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
         store.set('df_last_sync_error', String(err && err.message || err));
-        toast('Sync failed. Your work is still saved on this device.');
         return false;
       });
     } catch(err) {
       console.warn('Smart DT Google Sheets sync error:', err);
-      setSyncStatus('failed', 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
+      store.set('df_last_sync_status', 'Sync failed. Your work is still saved on this device. Please try syncing again when internet is stable.');
       store.set('df_last_sync_error', String(err && err.message || err));
-      toast('Sync failed. Your work is still saved on this device.');
       return Promise.resolve(false);
     }
   }
@@ -113,10 +108,10 @@
     ],
     '02': [
       {q:'What is the MAIN output of the Define phase?',a:0,o:['A clear user-centred problem statement based on research','A finished prototype','A list of random ideas','A final presentation script']},
-      {q:'Should the problem statement include a solution?',a:1,o:['True — include the app idea immediately','False — define the problem only, never the solution','True — project guides prefer evidence first','False — skip the problem statement']},
+      {q:'Should the problem statement include a solution?',a:1,o:['True — include the app idea immediately','False — define the problem only, never the solution','True — project guides prefer solutions first','False — skip the problem statement']},
       {q:'Which HMW question is correctly formatted?',a:2,o:['We should build a canteen app.','Can you make students eat faster?','How might we help students eat lunch faster on campus?','Why is the canteen crowded?']},
       {q:'Can you skip Define if Empathy was thorough enough?',a:1,o:['True — Empathy is enough','False — Empathy and Define serve different purposes','True — go straight to Ideation','False — skip Ideation instead']},
-      {q:'What should a good problem statement focus on?',a:1,o:['The technology your team likes','The user’s need and the insight behind it','The cheapest available solution','The project guide’s preferred direction']}
+      {q:'What should a good problem statement focus on?',a:1,o:['The technology your team likes','The user’s need and the insight behind it','The cheapest available solution','The project guide’s preferred product']}
     ],
     '03': [
       {q:'What is the golden rule of brainstorming?',a:0,o:['No judging or evaluating ideas during the session','Choose the cheapest idea first','Only write ideas from the team leader','Start building the prototype immediately']},
@@ -137,7 +132,7 @@
       {q:'Should you explain how the prototype works before testing?',a:1,o:['True — explain every feature first','False — never explain first; watching struggle is useful data','True — users cannot test without full explanation','False — cancel the test instead']},
       {q:'What is most important to do during a user test?',a:2,o:['Persuade users to like the prototype','Change the design during the test','Observe and listen without interfering','Ask only yes/no questions']},
       {q:'If testers complete the task, is testing done?',a:1,o:['True — completion means no more analysis','False — also identify friction points and improvement opportunities','True — submit immediately','False — restart from Empathy']},
-      {q:'What should happen AFTER collecting all test feedback?',a:1,o:['Complete the phase without analysing feedback','Analyse feedback patterns, create an improvement plan, then reflect','Rebuild the entire prototype from scratch','Present results to class immediately']}
+      {q:'What should happen AFTER collecting all test feedback?',a:1,o:['Complete directly without analysis','Analyse feedback patterns, create an improvement plan, then reflect','Rebuild the entire prototype from scratch','Present results to class immediately']}
     ]
   };
 
@@ -162,12 +157,6 @@
     el.textContent = msg;
     el.classList.add('show');
     setTimeout(()=>el.classList.remove('show'),2600);
-  }
-
-  function setSyncStatus(status, message){
-    store.set('df_last_sync_status', status);
-    store.set('df_last_sync_message', message);
-    store.set('df_last_sync_time', new Date().toISOString());
   }
 
   function hydrateHeader(){
@@ -197,7 +186,7 @@
   function quizPassed(n){ const s = parseInt(quizScore(n)||'-1',10); return s >= 3 || store.get('df_unlocked_phase'+n)==='true'; }
   function completedCount(){ let c=0; ['01','02','03','04','05'].forEach(n=>{ if(isPhaseSubmitted(n)) c++; }); return c; }
   function currentPhase(){
-    // Completion-based only. No approval gate dependency.
+    // Completion-based only. No supervisor gate dependency.
     for(const n of ['01','02','03','04','05']){
       if(isPhaseSubmitted(n)) continue;
       return n;
@@ -213,7 +202,6 @@
         const data=Object.fromEntries(new FormData(reg));
         Object.entries(data).forEach(([k,v])=>store.set(k,(v||'').trim()));
         store.set('df_registered','true');
-        setSyncStatus('saved', 'Saved on this device.');
         syncToGoogleSheets('student_registration', { form: data }, true);
         location.href='dashboard.html';
       });
@@ -226,7 +214,6 @@
         Object.entries(data).forEach(([k,v])=>store.set(k,(v||'').trim()));
         store.set('df_registered','true');
         if(!store.get('df_student_name')) store.set('df_student_name',(data.df_email||'Student').split('@')[0]);
-        setSyncStatus('saved', 'Saved on this device.');
         syncToGoogleSheets('student_login', { form: data }, true);
         location.href='dashboard.html';
       });
@@ -477,7 +464,6 @@
         expected.forEach(id=>{ const panel=document.getElementById(id); if(panel) allData[id]=formValues(panel); });
         store.setJson('df_phase'+ph+'_submission', { submittedAt:new Date().toISOString(), templates:allData });
         store.set('df_submitted_phase'+ph,'true');
-        setSyncStatus('saved', 'Saved on this device.');
         syncToGoogleSheets('phase_submit', { phase: ph, submission: allData, submittedAt: new Date().toISOString(), nextPhase: NEXT_PHASE[ph] || null });
         const next = NEXT_PHASE[ph];
         showSubmitSuccess(ph,next);
@@ -794,22 +780,22 @@
     }
     card.innerHTML=`
       <div class="success-mark">✓</div>
-      <h2>Phase ${ph} Completed Successfully</h2>
+      <h2>Phase ${ph} Submitted Successfully</h2>
       <p>Phase completed successfully. Your work has been saved on this device. You may continue to the next phase.</p>
       ${nextHtml}`;
     panel.prepend(card);
     card.scrollIntoView({behavior:'smooth',block:'start'});
-    toast(`Phase ${ph} completed.`);
+    toast(`Phase ${ph} submitted.`);
   }
 
-  // ── Gate approval logic removed: no approval gate in this app ─────
+  // ── Gate approval logic removed: no supervisor gate in this app ─────
   function isGateApproved(){ return true; }
   function isGateApprovedByNum(){ return true; }
   function checkGateApproval(){ return Promise.resolve(true); }
   function pollGateApproval(){ return null; }
 
   function setupGateGuard(){
-    // No approval gate in this app. Function kept as a safe no-op
+    // No supervisor gate in this app. Function kept as a safe no-op
     // so any existing call sites (e.g. init()) do not error.
     return;
   }
@@ -827,7 +813,7 @@
     $('[data-field="reg"]') && ($('[data-field="reg"]').textContent=store.get('df_reg_no')||store.get('df_registration_no')||'Not added');
     $('[data-field="class"]') && ($('[data-field="class"]').textContent=store.get('df_class')||'Not added');
     $('[data-field="team"]') && ($('[data-field="team"]').textContent=store.get('df_team')||'My Team');
-    $('[data-field="supervisor"]') && ($('[data-field="supervisor"]').textContent=store.get('df_supervisor')||'My Project Guide');
+    $('[data-field="supervisor"]') && ($('[data-field="supervisor"]').textContent=store.get('df_supervisor')||'My Supervisor');
     // Show project name field if present in HTML
     $('[data-field="project"]') && ($('[data-field="project"]').textContent=store.get('df_project_name')||'Not added');
     $('#profileTasks') && ($('#profileTasks').textContent=pendingTasks());
@@ -951,7 +937,7 @@
               </div>
               <div class="profile-field" style="grid-column:1/-1">
                 <span>Sync Status</span>
-                <strong style="font-weight:600;font-size:12px">${escapeHtml(store.get('df_last_sync_message')||'No sync activity yet.')}</strong><small style="display:block;margin-top:4px;color:var(--muted)">Last action: ${escapeHtml(store.get('df_last_sync_action')||'None')} · Status: ${escapeHtml(store.get('df_last_sync_status')||'—')}</small>
+                <strong style="font-weight:600;font-size:12px">Last action: ${escapeHtml(store.get('df_last_sync_action')||'None')} · Status: ${escapeHtml(store.get('df_last_sync_status')||'—')}</strong>
               </div>
               <div style="grid-column:1/-1;margin-top:8px">
                 <button class="btn ghost" style="font-size:12px;min-height:40px;width:100%" id="clearPhotoBtn">Remove Profile Photo</button>
