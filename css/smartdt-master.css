@@ -1,0 +1,328 @@
+/* ============================================================
+   SMART DT CAMP21 — MASTER DESIGN SYSTEM  (v1, Jul 2026)
+   File: css/smartdt-master.css
+
+   THE single source of truth for design tokens + core components.
+   Every value here is extracted from the live, validated app
+   (phase pages + shell-patch v2) — linking this file makes any
+   NEW page follow the same design automatically.
+
+   HOW TO USE ON A NEW PAGE:
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="css/smartdt-master.css">
+     <link rel="stylesheet" href="css/smartdt-shell-patch.css">
+
+   RULES:
+   - No !important here. smartdt-shell-patch.css stays the final
+     authority for shell sizing and always wins the cascade.
+   - Never hardcode colors/radii/shadows in page CSS — use the
+     var(--...) tokens below.
+   - Existing pages do NOT need this file; their styles already
+     match these values. This file is for new pages + reference.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. DESIGN TOKENS
+   ------------------------------------------------------------ */
+:root{
+  /* Brand colors */
+  --navy:   #082B66;   /* primary text on light, primary buttons, headings */
+  --teal:   #16B8AA;   /* success, active nav, guide links, progress */
+  --orange: #FF6236;   /* call-to-action, quiz, warnings-accent */
+  --teal-bright: #29E1D1; /* accent word inside dark intro cards */
+
+  /* Surfaces */
+  --bg:     #EEF5FA;   /* app background */
+  --soft:   #F8FBFE;   /* soft inner panels */
+  --line:   #DDE8F0;   /* borders */
+
+  /* Text */
+  --text:   #061A3A;   /* body text */
+  --muted:  #68778F;   /* secondary text */
+
+  /* Semantic tints (quick-fact boxes, quiz states) */
+  --tint-yellow: #FFF3D6;
+  --tint-red:    #FFF1F1;
+  --tint-green:  #E9FAF7;
+  --tint-cream:  #FFFCF5;
+  --tint-peach:  #FFF7ED;
+
+  /* Typography */
+  --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Elevation */
+  --shadow:      0 16px 36px rgba(8,43,102,.09);
+  --shadow-soft: 0 10px 24px rgba(8,43,102,.05);
+
+  /* Radii scale */
+  --r-hero: 30px;   /* hero card */
+  --r-card: 26px;   /* large cards */
+  --r-box:  24px;   /* quick-fact, quiz, template cards */
+  --r-drop: 22px;   /* guide dropdown, bridge box */
+  --r-tile: 18px;   /* inner tiles, info boxes */
+  --r-input:17px;   /* inputs, textareas */
+  --r-pill: 999px;  /* buttons, chips, pills, nav */
+
+  /* Shell sizing (canonical — shell-patch v2 enforces the same) */
+  --header-h: 76px;
+  --nav-h:    84px;
+  --page-x:   28px;
+}
+@media (max-width:720px){
+  :root{ --header-h:72px; --nav-h:72px; --page-x:16px; }
+}
+@media (min-width:1024px){
+  :root{ --page-x:32px; --nav-h:86px; }
+}
+
+/* ------------------------------------------------------------
+   2. BASE
+   ------------------------------------------------------------ */
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-width:320px;
+  overflow-x:hidden;
+}
+.app{ width:100%; max-width:1180px; margin:0 auto; min-height:100vh; }
+
+/* ------------------------------------------------------------
+   3. HEADER (sticky — occupies layout space; no top padding needed)
+   ------------------------------------------------------------ */
+.header{
+  height:var(--header-h);
+  padding:0 var(--page-x);
+  display:flex; align-items:center; justify-content:space-between;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:40;
+}
+.brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--navy); min-width:0; }
+.brand-logo img{ width:50px; height:50px; object-fit:contain; display:block; }
+.brand-text{ font-size:19px; font-weight:900; line-height:1.05; }
+.header-actions{ display:flex; align-items:center; gap:10px; flex:0 0 auto; }
+.pill,.avatar,.icon-btn{
+  height:46px; border:1px solid var(--line); background:#fff;
+  border-radius:var(--r-pill); display:inline-flex; align-items:center;
+  justify-content:center; box-shadow:var(--shadow-soft);
+  font-size:14px; font-weight:900; color:var(--navy);
+}
+.pill{ padding:0 16px; color:var(--orange); }
+.avatar{ width:46px; background:var(--teal); border-color:var(--teal); color:#fff; }
+
+/* ------------------------------------------------------------
+   4. PAGE CONTAINER
+   ------------------------------------------------------------ */
+.page{
+  width:100%;
+  padding: 18px var(--page-x)
+           calc(var(--nav-h) + 28px + env(safe-area-inset-bottom));
+}
+.page.no-nav{ padding-bottom:34px; }
+
+/* ------------------------------------------------------------
+   5. HERO CARD
+   ------------------------------------------------------------ */
+.hero-card{
+  background:#fff; width:100%; max-width:900px; margin:20px auto;
+  padding:18px; border-radius:var(--r-hero);
+  border:1px solid rgba(8,43,102,.06); box-shadow:var(--shadow);
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.hero-card img{
+  width:100%; max-width:820px; height:clamp(170px,34vw,360px);
+  object-fit:contain; border-radius:14px; display:block;
+}
+
+/* ------------------------------------------------------------
+   6. INTRO CARD (dark navy gradient banner)
+   ------------------------------------------------------------ */
+.intro-card{
+  background:linear-gradient(135deg,var(--navy),#0A3678 72%);
+  border-radius:28px; color:#fff; padding:30px 28px; margin-bottom:16px;
+  box-shadow:0 18px 34px rgba(8,43,102,.18); position:relative; overflow:hidden;
+}
+.intro-card:after{
+  content:""; position:absolute; right:-34px; top:-36px;
+  width:124px; height:124px; border-radius:50%; background:rgba(22,184,170,.28);
+}
+.eyebrow{ font-size:13px; text-transform:uppercase; letter-spacing:.09em; font-weight:900; opacity:.8; margin-bottom:8px; }
+.intro-title{ font-size:clamp(28px,3.1vw,34px); line-height:1.12; font-weight:900; letter-spacing:-.04em; }
+.intro-title .teal{ color:var(--teal-bright); }
+.intro-text{ font-size:16px; line-height:1.55; opacity:.94; margin-top:10px; max-width:760px; }
+
+/* ------------------------------------------------------------
+   7. CARDS & TYPOGRAPHY
+   ------------------------------------------------------------ */
+.card{
+  background:#fff; border:1px solid var(--line); border-radius:var(--r-card);
+  padding:22px; box-shadow:var(--shadow); margin-bottom:16px;
+}
+h2{ font-size:26px; font-weight:900; color:var(--navy); margin-bottom:10px; letter-spacing:-.03em; }
+h3{ font-size:22px; font-weight:900; color:var(--navy); margin-bottom:8px; }
+p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
+
+/* ------------------------------------------------------------
+   8. BUTTONS
+   Variants: default (navy) | .orange (CTA) | .secondary (light)
+   ------------------------------------------------------------ */
+.btn{
+  border:0; border-radius:var(--r-pill); min-height:52px; padding:0 18px;
+  background:var(--navy); color:#fff; font-family:var(--font);
+  font-weight:900; font-size:15px; width:100%; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center; text-decoration:none;
+}
+.btn.orange{ background:var(--orange); }
+.btn.secondary{ background:#E9F1F7; color:var(--navy); }
+.btn-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+
+/* ------------------------------------------------------------
+   9. CHIP NAVIGATION (template switcher)
+   ------------------------------------------------------------ */
+.template-nav{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:16px 0; }
+.chip{
+  border:1px solid var(--line); background:#fff; border-radius:var(--r-pill);
+  padding:14px 0; font-family:var(--font); font-size:14px; font-weight:900;
+  color:#7A879A; cursor:pointer;
+}
+.chip.active{ background:var(--navy); color:#fff; }
+
+/* ------------------------------------------------------------
+   10. QUICK-FACT CARD (4-box pattern above each template)
+   Boxes: default | .warn (red) | .enough (yellow) | .case (green)
+   ------------------------------------------------------------ */
+.quick-fact{
+  background:var(--tint-cream); border:1.5px solid #EADFC6;
+  border-radius:var(--r-box); padding:18px; margin:14px 0;
+  box-shadow:0 10px 24px rgba(8,43,102,.04);
+}
+.qf-head{ display:flex; gap:14px; align-items:center; margin-bottom:14px; }
+.qf-icon{
+  width:68px; height:68px; border-radius:22px; background:#fff;
+  display:grid; place-items:center; border:1px solid var(--line);
+  box-shadow:0 10px 20px rgba(8,43,102,.06); font-size:36px; flex:0 0 auto;
+}
+.qf-title{ font-size:18px; font-weight:900; color:var(--navy); line-height:1.25; }
+.qf-sub{ font-size:14px; color:var(--muted); font-weight:700; margin-top:3px; }
+.qf-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.qf-item{
+  display:grid; grid-template-columns:48px 1fr; gap:10px; align-items:flex-start;
+  border-radius:var(--r-tile); padding:12px; font-size:14px; line-height:1.45;
+  background:var(--soft); border:1px solid var(--line); color:var(--muted);
+}
+.mini-emoji{
+  width:44px; height:44px; border-radius:14px; background:#fff;
+  display:grid; place-items:center; font-size:25px;
+  box-shadow:0 6px 14px rgba(8,43,102,.06);
+}
+.qf-copy b{ display:block; color:var(--navy); font-size:12px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; }
+.qf-item.warn{   background:var(--tint-red);    border-color:#FFD0D0; }
+.qf-item.enough{ background:var(--tint-yellow); border-color:#F6D86B; }
+.qf-item.case{   background:var(--tint-green);  border-color:#BDEFE6; }
+
+/* ------------------------------------------------------------
+   11. GUIDE DROPDOWN (orange "Need help?" pattern)
+   ------------------------------------------------------------ */
+.guide-drop{
+  margin:14px 0 4px; border:0; border-radius:var(--r-drop);
+  background:#fff; overflow:hidden; box-shadow:0 10px 22px rgba(255,98,54,.12);
+}
+.guide-drop summary{
+  list-style:none; cursor:pointer; padding:16px 18px;
+  font-size:15px; font-weight:900; color:#fff; background:var(--orange);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.guide-drop summary::-webkit-details-marker{ display:none; }
+.guide-drop summary:after{ content:"⌄"; font-size:22px; color:#fff; }
+.guide-body{ border:1px solid #FFD8C8; border-top:0; padding:14px 16px; background:#fff; border-radius:0 0 var(--r-drop) var(--r-drop); }
+.guide-link{
+  min-height:50px; border-radius:var(--r-pill); background:var(--teal);
+  color:#fff; text-decoration:none; font-weight:900; font-size:15px;
+  display:flex; align-items:center; justify-content:center; margin-top:10px;
+}
+
+/* ------------------------------------------------------------
+   12. FORMS
+   ------------------------------------------------------------ */
+label{ display:block; font-size:14px; font-weight:900; color:var(--navy); margin:14px 0 7px; }
+input, textarea, select{
+  width:100%; border:1.5px solid var(--line); border-radius:var(--r-input);
+  padding:13px 14px; font-family:var(--font); font-size:15px;
+  color:var(--text); background:#fff; min-height:48px;
+}
+textarea{ min-height:108px; resize:vertical; }
+input:focus, textarea:focus, select:focus{
+  outline:none; border-color:var(--teal);
+  box-shadow:0 0 0 4px rgba(22,184,170,.10);
+}
+.form-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+
+/* ------------------------------------------------------------
+   13. QUIZ OPTION (states: default | .selected | .correct | .wrong)
+   ------------------------------------------------------------ */
+.quiz-card{ background:#fff; border:1px solid var(--line); border-radius:var(--r-box); padding:18px; margin:16px 0; }
+.quiz-q{ font-weight:900; color:var(--navy); font-size:20px; line-height:1.35; margin:10px 0 12px; }
+.option{
+  display:block; width:100%; text-align:left; border:1.5px solid var(--line);
+  border-radius:var(--r-input); background:#fff; padding:14px; margin:8px 0;
+  font-family:var(--font); font-size:15px; font-weight:700; color:var(--text); cursor:pointer;
+}
+.option.selected{ border-color:var(--navy); background:#EAF1FB; }
+.option.correct{  border-color:var(--teal); background:var(--tint-green); }
+.option.wrong{    border-color:#E5484D;     background:var(--tint-red); }
+
+/* ------------------------------------------------------------
+   14. BADGE CARD (phase completion)
+   ------------------------------------------------------------ */
+.badge-card{
+  background:linear-gradient(135deg,var(--tint-green),#F4FFFD);
+  border:1.5px solid #BDEFE6; border-radius:var(--r-card);
+  padding:24px 18px; margin-top:18px; text-align:center;
+  box-shadow:0 12px 26px rgba(22,184,170,.10);
+}
+.badge-card h3{ color:var(--teal); font-size:28px; line-height:1.15; margin:6px 0; }
+.badge-img{ width:92px; height:92px; object-fit:contain; margin:0 auto 8px; display:block; }
+
+/* ------------------------------------------------------------
+   15. BOTTOM NAV (fixed, safe-area aware)
+   ------------------------------------------------------------ */
+.bottom-nav{
+  position:fixed; left:50%; transform:translateX(-50%); bottom:0;
+  width:100%; max-width:1180px;
+  height:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  background:#fff; border-top:1px solid var(--line);
+  display:grid; grid-template-columns:repeat(5,minmax(0,1fr));
+  z-index:120; box-shadow:0 -10px 24px rgba(8,43,102,.06);
+}
+.nav-item{
+  text-decoration:none; color:#7C8799; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:4px; font-size:11px; font-weight:800;
+}
+.nav-item.active{ color:var(--teal); }
+.nav-icon-img,.nav-item img{ width:32px; height:32px; object-fit:contain; display:block; }
+
+/* ------------------------------------------------------------
+   16. MOBILE ADJUSTMENTS (≤720px)
+   ------------------------------------------------------------ */
+@media (max-width:720px){
+  .brand-logo img{ width:42px; height:42px; }
+  .brand-text{ font-size:14px; }
+  .pill.lang-pill,.avatar{ display:none; }
+  .pill,.icon-btn{ height:42px; }
+  .hero-card{ border-radius:24px; padding:12px; margin:14px auto; }
+  .hero-card img{ height:clamp(150px,42vw,220px); }
+  .intro-card{ border-radius:24px; padding:22px 18px; }
+  .card{ padding:18px; border-radius:var(--r-drop); }
+  h2{ font-size:22px; } h3{ font-size:19px; }
+  .qf-grid,.form-grid,.btn-row{ grid-template-columns:1fr; }
+  .nav-icon-img,.nav-item img{ width:26px; height:26px; }
+  .nav-item{ font-size:10px; }
+}
