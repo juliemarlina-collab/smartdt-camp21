@@ -1,0 +1,127 @@
+/* ============================================================
+   SMART DT — CAMP21 THEME OVERRIDE
+   Loaded LAST on every page (after smartdt.css / smartdt-master.css /
+   smartdt-shell-patch.css / phase page inline <style>). Its only job
+   is to make every page use the same Camp21 palette and font pairing,
+   including overriding the phaseNN-*.html pages' own inline <style>
+   blocks, without touching any JS logic or localStorage keys.
+
+   Palette (from the official brand color palette):
+     Deep Indigo    #20103E  -- primary (was navy)
+     Royal Purple   #5A36C9  -- secondary accent (was teal)
+     Orchid Pink    #F05AA6  -- accent word on dark cards / tertiary
+     Batik Gold     #D9AF37  -- CTA / highlight accent (was orange)
+     Soft Lavender  #B39DDB  -- light accent tint
+     Warm Cream     #F8F2EA  -- background
+     Charcoal Ink   #2B2733  -- body text
+     Heritage Olive #807B1D  -- muted/secondary text
+
+   Fonts: headings = Fraunces, body = Inter.
+   ============================================================ */
+
+:root{
+  /* core roles shared by smartdt.css / smartdt-master.css / phase pages */
+  --navy:   #20103E;   /* Deep Indigo */
+  --teal:   #5A36C9;   /* Royal Purple */
+  --orange: #D9AF37;   /* Batik Gold */
+  --yellow: #F7E8C4;   /* light Batik Gold tint */
+  --red:    #FBEAEA;   /* light neutral warn tint */
+  --green:  #EDE6F7;   /* light Soft Lavender tint ("correct"/positive state) */
+  --bg:     #F8F2EA;   /* Warm Cream */
+  --card:   #FFFFFF;
+  --line:   #E5D9C8;   /* light warm border */
+  --muted:  #948B55;   /* softened Heritage Olive, for legible secondary text */
+  --text:   #2B2733;   /* Charcoal Ink */
+  --soft:   #F1E8DC;   /* soft panel bg, cream family */
+  --danger: #E5484D;   /* semantic, unrelated to brand */
+  --success:#16A34A;   /* semantic, unrelated to brand */
+  --shadow:     0 16px 36px rgba(32,16,62,.10);
+  --shadow-sm:  0 8px 20px rgba(32,16,62,.07);
+  --shadow-soft:0 10px 24px rgba(32,16,62,.06);
+
+  /* smartdt-master.css tint tokens */
+  --teal-bright: #F05AA6; /* Orchid Pink accent word on dark intro cards */
+  --tint-yellow: #F7E8C4;
+  --tint-red:    #FBEAEA;
+  --tint-green:  #EDE6F7;
+  --tint-cream:  #FDFAF5;
+  --tint-peach:  #F7E8C4;
+
+  /* direct brand-color access, for anything built against this theme */
+  --indigo:   #20103E;
+  --purple:   #5A36C9;
+  --pink:     #F05AA6;
+  --gold:     #D9AF37;
+  --lavender: #B39DDB;
+  --olive:    #807B1D;
+  --charcoal: #2B2733;
+  --cream:    #F8F2EA;
+
+  /* Heading = Fraunces, Body = Inter, everywhere */
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', 'Georgia', serif;
+}
+
+/* ------------------------------------------------------------
+   FONT PAIRING (forced, beats inline <style> declarations that
+   don't route through var(--font))
+   ------------------------------------------------------------ */
+body, input, textarea, select, button,
+.btn, .option, .option-text, .chip, .step, .tab, .subtab,
+p, li, span, a, label {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+}
+h1, h2, h3, h4, h5,
+.brand-text, .intro-title, .eyebrow,
+.phase-mini-title, .poster-title, .def-num,
+.qf-title, .q-title, .quiz-q, .quiz-count,
+.template-head h2, .badge-card h3, .rule-title,
+.section-title, .card-label, .project-title {
+  font-family: 'Fraunces', 'Georgia', serif !important;
+}
+
+/* ------------------------------------------------------------
+   PHASE-PAGE-ONLY LITERAL OVERRIDES
+   These classes hardcode hex colors that don't route through
+   var(--...), so the :root swap above can't reach them. Same
+   ~30-color set is shared byte-for-byte across phase01-05.html.
+   ------------------------------------------------------------ */
+.intro-title .teal{ color:var(--teal-bright) !important; }
+.intro-card{ background:linear-gradient(135deg,var(--navy),var(--teal) 72%) !important; }
+
+.rule-card{ border-color:#EAD9A8 !important; }
+.rule-title{ color:var(--orange) !important; }
+.instruction-hero{ background:linear-gradient(135deg,#FDFAF5,#F7E8C4) !important; border-color:#EAD9A8 !important; }
+.phase-mini-card.active{ background:#F7E8C4 !important; border-color:#EAD9A8 !important; }
+.phase-mini-card.active .n{ background:var(--orange) !important; border-color:var(--orange) !important; }
+
+.stepbar{ background:#F1E8DC !important; }
+.step{ color:#948B55 !important; }
+
+.quick-fact{ background:#FDFAF5 !important; border-color:#EAD9A8 !important; }
+.qf-item.enough{ border-color:var(--orange) !important; }
+.qf-icon, .mini-emoji{ box-shadow:0 10px 20px rgba(32,16,62,.08) !important; }
+
+.guide-drop{ box-shadow:0 10px 22px rgba(217,175,55,.16) !important; }
+.guide-body{ border-color:#EAD9A8 !important; }
+
+.bridge-box{ background:linear-gradient(135deg,#F7E8C4,#F0DFA0) !important; border-color:var(--orange) !important; }
+.bridge-tag{ background:var(--orange) !important; }
+
+.option.selected{ background:#EDE6F7 !important; border-color:var(--navy) !important; }
+.option.correct{ background:var(--green) !important; border-color:var(--teal) !important; }
+
+.badge-card{ background:linear-gradient(135deg,var(--green),#F8F5FC) !important; border-color:#D8C7ED !important; }
+.badge-card h3{ color:var(--teal) !important; }
+.completion-box{ background:var(--green) !important; border-color:#D8C7ED !important; }
+.completion-box h3{ color:var(--teal) !important; }
+
+.qtier-card.warm{ border-color:#D8C7ED !important; }
+.qtier-card.deep{ border-color:#EAD9A8 !important; }
+.qtier-card.warm .qtier-icon{ background:var(--green) !important; color:var(--teal) !important; }
+.qtier-card.deep .qtier-icon{ background:var(--red) !important; color:var(--orange) !important; }
+.qtier-tip{ background:linear-gradient(135deg,#F7E8C4,#F0DFA0) !important; border-color:#EAD9A8 !important; }
+.qtier-tip b{ color:var(--orange) !important; }
+
+.nav-item{ color:#948B55 !important; }
+.chip{ color:#948B55 !important; }
