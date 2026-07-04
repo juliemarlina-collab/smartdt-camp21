@@ -30,10 +30,11 @@
   --teal:   #16B8AA;   /* success, active nav, guide links, progress */
   --orange: #FF6236;   /* call-to-action, quiz, warnings-accent */
   --teal-bright: #29E1D1; /* accent word inside dark intro cards */
+  --camp-magenta: #D81E7A; /* CAMP21 website CTA — used on guide dropdown */
 
   /* Surfaces */
   --bg:     #EEF5FA;   /* app background */
-  --soft:   #F7FBFE;   /* soft inner panels */
+  --soft:   #F8FBFE;   /* soft inner panels */
   --line:   #DDE8F0;   /* borders */
 
   /* Text */
@@ -44,8 +45,8 @@
   --tint-yellow: #FFF3D6;
   --tint-red:    #FFF1F1;
   --tint-green:  #E9FAF7;
-  --tint-cream:  #F9FDFF;
-  --tint-peach:  #FFE4DA;
+  --tint-cream:  #FFFCF5;
+  --tint-peach:  #FFF7ED;
 
   /* Typography */
   --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -180,7 +181,7 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
   display:inline-flex; align-items:center; justify-content:center; text-decoration:none;
 }
 .btn.orange{ background:var(--orange); }
-.btn.secondary{ background:#EAF1F7; color:var(--navy); }
+.btn.secondary{ background:#E9F1F7; color:var(--navy); }
 .btn-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
 
 /* ------------------------------------------------------------
@@ -190,7 +191,7 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
 .chip{
   border:1px solid var(--line); background:#fff; border-radius:var(--r-pill);
   padding:14px 0; font-family:var(--font); font-size:14px; font-weight:900;
-  color:#98A4B8; cursor:pointer;
+  color:#7A879A; cursor:pointer;
 }
 .chip.active{ background:var(--navy); color:#fff; }
 
@@ -199,7 +200,7 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
    Boxes: default | .warn (red) | .enough (yellow) | .case (green)
    ------------------------------------------------------------ */
 .quick-fact{
-  background:var(--tint-cream); border:1.5px solid #FFD9C2;
+  background:var(--tint-cream); border:1.5px solid #EADFC6;
   border-radius:var(--r-box); padding:18px; margin:14px 0;
   box-shadow:0 10px 24px rgba(8,43,102,.04);
 }
@@ -224,24 +225,25 @@ p,.small{ font-size:15px; color:var(--muted); line-height:1.55; }
 }
 .qf-copy b{ display:block; color:var(--navy); font-size:12px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; }
 .qf-item.warn{   background:var(--tint-red);    border-color:#FFD0D0; }
-.qf-item.enough{ background:var(--tint-yellow); border-color:#FFB088; }
-.qf-item.case{   background:var(--tint-green);  border-color:#A8E8DC; }
+.qf-item.enough{ background:var(--tint-yellow); border-color:#F6D86B; }
+.qf-item.case{   background:var(--tint-green);  border-color:#BDEFE6; }
 
 /* ------------------------------------------------------------
-   11. GUIDE DROPDOWN (orange "Need help?" pattern)
+   11. GUIDE DROPDOWN — CAMP21 magenta "Need help?" pattern
    ------------------------------------------------------------ */
 .guide-drop{
   margin:14px 0 4px; border:0; border-radius:var(--r-drop);
-  background:#fff; overflow:hidden; box-shadow:0 10px 22px rgba(255,98,54,.12);
+  background:#fff; overflow:hidden; box-shadow:0 12px 26px rgba(216,30,122,.16);
 }
 .guide-drop summary{
   list-style:none; cursor:pointer; padding:16px 18px;
-  font-size:15px; font-weight:900; color:#fff; background:var(--orange);
+  font-size:15px; font-weight:900; color:#fff;
+  background:linear-gradient(135deg, var(--camp-magenta), #C21C6D);
   display:flex; align-items:center; justify-content:space-between;
 }
 .guide-drop summary::-webkit-details-marker{ display:none; }
 .guide-drop summary:after{ content:"⌄"; font-size:22px; color:#fff; }
-.guide-body{ border:1px solid #FFC9A8; border-top:0; padding:14px 16px; background:#fff; border-radius:0 0 var(--r-drop) var(--r-drop); }
+.guide-body{ border:1px solid rgba(216,30,122,.22); border-top:0; padding:14px 16px; background:#fff; border-radius:0 0 var(--r-drop) var(--r-drop); }
 .guide-link{
   min-height:50px; border-radius:var(--r-pill); background:var(--teal);
   color:#fff; text-decoration:none; font-weight:900; font-size:15px;
@@ -274,7 +276,7 @@ input:focus, textarea:focus, select:focus{
   border-radius:var(--r-input); background:#fff; padding:14px; margin:8px 0;
   font-family:var(--font); font-size:15px; font-weight:700; color:var(--text); cursor:pointer;
 }
-.option.selected{ border-color:var(--navy); background:#F5F9FC; }
+.option.selected{ border-color:var(--navy); background:#EAF1FB; }
 .option.correct{  border-color:var(--teal); background:var(--tint-green); }
 .option.wrong{    border-color:#E5484D;     background:var(--tint-red); }
 
@@ -282,8 +284,8 @@ input:focus, textarea:focus, select:focus{
    14. BADGE CARD (phase completion)
    ------------------------------------------------------------ */
 .badge-card{
-  background:linear-gradient(135deg,var(--tint-green),#F0FDFB);
-  border:1.5px solid #A8E8DC; border-radius:var(--r-card);
+  background:linear-gradient(135deg,var(--tint-green),#F4FFFD);
+  border:1.5px solid #BDEFE6; border-radius:var(--r-card);
   padding:24px 18px; margin-top:18px; text-align:center;
   box-shadow:0 12px 26px rgba(22,184,170,.10);
 }
@@ -303,7 +305,7 @@ input:focus, textarea:focus, select:focus{
   z-index:120; box-shadow:0 -10px 24px rgba(8,43,102,.06);
 }
 .nav-item{
-  text-decoration:none; color:#98A4B8; display:flex; flex-direction:column;
+  text-decoration:none; color:#7C8799; display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:4px; font-size:11px; font-weight:800;
 }
 .nav-item.active{ color:var(--teal); }
@@ -315,7 +317,8 @@ input:focus, textarea:focus, select:focus{
 @media (max-width:720px){
   .brand-logo img{ width:42px; height:42px; }
   .brand-text{ font-size:14px; }
-  .pill,.avatar,.icon-btn{ height:42px; }
+  .pill.lang-pill,.avatar{ display:none; }
+  .pill,.icon-btn{ height:42px; }
   .hero-card{ border-radius:24px; padding:12px; margin:14px auto; }
   .hero-card img{ height:clamp(150px,42vw,220px); }
   .intro-card{ border-radius:24px; padding:22px 18px; }
