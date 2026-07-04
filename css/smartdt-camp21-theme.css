@@ -1,127 +1,350 @@
 /* ============================================================
-   SMART DT — CAMP21 THEME OVERRIDE
-   Loaded LAST on every page (after smartdt.css / smartdt-master.css /
-   smartdt-shell-patch.css / phase page inline <style>). Its only job
-   is to make every page use the same Camp21 palette and font pairing,
-   including overriding the phaseNN-*.html pages' own inline <style>
-   blocks, without touching any JS logic or localStorage keys.
+   SMART DT PROJECT — CAMP21 WEBSITE STYLE v3
+   Design/style override only. No JS hooks, data-key, data-nav,
+   localStorage keys, quiz logic or phase logic are changed.
 
-   Palette (from the official brand color palette):
-     Deep Indigo    #20103E  -- primary (was navy)
-     Royal Purple   #5A36C9  -- secondary accent (was teal)
-     Orchid Pink    #F05AA6  -- accent word on dark cards / tertiary
-     Batik Gold     #D9AF37  -- CTA / highlight accent (was orange)
-     Soft Lavender  #B39DDB  -- light accent tint
-     Warm Cream     #F8F2EA  -- background
-     Charcoal Ink   #2B2733  -- body text
-     Heritage Olive #807B1D  -- muted/secondary text
-
-   Fonts: headings = Fraunces, body = Inter.
+   Reference style: CAMP21 homepage + trainers hub
+   - warm cream base
+   - deep indigo editorial blocks
+   - Fraunces headings + Inter body
+   - orchid pink CTA
+   - batik gold highlights
+   - phase colours: indigo / purple / olive / gold / pink
    ============================================================ */
 
 :root{
-  /* core roles shared by smartdt.css / smartdt-master.css / phase pages */
-  --navy:   #20103E;   /* Deep Indigo */
-  --teal:   #5A36C9;   /* Royal Purple */
-  --orange: #D9AF37;   /* Batik Gold */
-  --yellow: #F7E8C4;   /* light Batik Gold tint */
-  --red:    #FBEAEA;   /* light neutral warn tint */
-  --green:  #EDE6F7;   /* light Soft Lavender tint ("correct"/positive state) */
-  --bg:     #F8F2EA;   /* Warm Cream */
-  --card:   #FFFFFF;
-  --line:   #E5D9C8;   /* light warm border */
-  --muted:  #948B55;   /* softened Heritage Olive, for legible secondary text */
-  --text:   #2B2733;   /* Charcoal Ink */
-  --soft:   #F1E8DC;   /* soft panel bg, cream family */
-  --danger: #E5484D;   /* semantic, unrelated to brand */
-  --success:#16A34A;   /* semantic, unrelated to brand */
-  --shadow:     0 16px 36px rgba(32,16,62,.10);
-  --shadow-sm:  0 8px 20px rgba(32,16,62,.07);
-  --shadow-soft:0 10px 24px rgba(32,16,62,.06);
+  --camp-cream:#FFF8EC;
+  --camp-cream-2:#F7EFE4;
+  --camp-indigo:#17113F;
+  --camp-indigo-2:#20103E;
+  --camp-purple:#5A35D6;
+  --camp-olive:#858815;
+  --camp-gold:#D9AF37;
+  --camp-gold-2:#C99E24;
+  --camp-pink:#E7357C;
+  --camp-pink-2:#F05AA6;
+  --camp-terracotta:#8B3E16;
+  --camp-white:#FFFFFF;
+  --camp-text:#262333;
+  --camp-muted:#73717C;
+  --camp-line:#E7DED1;
+  --camp-soft:#FBF6EF;
 
-  /* smartdt-master.css tint tokens */
-  --teal-bright: #F05AA6; /* Orchid Pink accent word on dark intro cards */
-  --tint-yellow: #F7E8C4;
-  --tint-red:    #FBEAEA;
-  --tint-green:  #EDE6F7;
-  --tint-cream:  #FDFAF5;
-  --tint-peach:  #F7E8C4;
-
-  /* direct brand-color access, for anything built against this theme */
-  --indigo:   #20103E;
-  --purple:   #5A36C9;
-  --pink:     #F05AA6;
-  --gold:     #D9AF37;
-  --lavender: #B39DDB;
-  --olive:    #807B1D;
-  --charcoal: #2B2733;
-  --cream:    #F8F2EA;
-
-  /* Heading = Fraunces, Body = Inter, everywhere */
-  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Fraunces', 'Georgia', serif;
+  /* map existing Smart DT tokens to Camp21 design roles */
+  --navy:var(--camp-indigo);
+  --teal:var(--camp-purple);
+  --orange:var(--camp-gold);
+  --bg:var(--camp-cream);
+  --line:var(--camp-line);
+  --muted:var(--camp-muted);
+  --text:var(--camp-text);
+  --soft:var(--camp-soft);
+  --yellow:#FFF1C9;
+  --green:#EFE9FF;
+  --red:#FFF0F5;
+  --card:var(--camp-white);
+  --shadow:0 18px 42px rgba(23,17,63,.12);
+  --shadow-sm:0 8px 22px rgba(23,17,63,.08);
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-display:'Fraunces','Playfair Display',Georgia,serif;
 }
 
-/* ------------------------------------------------------------
-   FONT PAIRING (forced, beats inline <style> declarations that
-   don't route through var(--font))
-   ------------------------------------------------------------ */
-body, input, textarea, select, button,
-.btn, .option, .option-text, .chip, .step, .tab, .subtab,
-p, li, span, a, label {
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+html{background:var(--camp-cream)!important;}
+body{
+  font-family:var(--font)!important;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(217,175,55,.13), transparent 30%),
+    radial-gradient(circle at 8% 18%, rgba(231,53,124,.08), transparent 26%),
+    linear-gradient(180deg,#FFFDF8 0%,var(--camp-cream) 38%,#F7EFE4 100%)!important;
+  color:var(--camp-text)!important;
 }
-h1, h2, h3, h4, h5,
-.brand-text, .intro-title, .eyebrow,
-.phase-mini-title, .poster-title, .def-num,
-.qf-title, .q-title, .quiz-q, .quiz-count,
-.template-head h2, .badge-card h3, .rule-title,
-.section-title, .card-label, .project-title {
-  font-family: 'Fraunces', 'Georgia', serif !important;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.35;
+  background-image:
+    linear-gradient(30deg, rgba(32,16,62,.035) 12%, transparent 12.5%, transparent 87%, rgba(32,16,62,.035) 87.5%, rgba(32,16,62,.035)),
+    linear-gradient(150deg, rgba(32,16,62,.035) 12%, transparent 12.5%, transparent 87%, rgba(32,16,62,.035) 87.5%, rgba(32,16,62,.035));
+  background-size:72px 72px;
 }
 
-/* ------------------------------------------------------------
-   PHASE-PAGE-ONLY LITERAL OVERRIDES
-   These classes hardcode hex colors that don't route through
-   var(--...), so the :root swap above can't reach them. Same
-   ~30-color set is shared byte-for-byte across phase01-05.html.
-   ------------------------------------------------------------ */
-.intro-title .teal{ color:var(--teal-bright) !important; }
-.intro-card{ background:linear-gradient(135deg,var(--navy),var(--teal) 72%) !important; }
+/* Typography */
+body, input, textarea, select, button, .btn, .option, .chip, .step, .subtab,
+p, li, span, a, label, .nav-label, .intro-text, .section-sub, .small{
+  font-family:var(--font)!important;
+}
+h1,h2,h3,h4,h5,
+.brand-text,.intro-title,.section-title,.project-title,.qf-title,.quiz-q,.template-head h2,
+.badge-card h3,.rule-title,.phase-mini-title,.poster-title,.def-num,.card-label,.eyebrow{
+  font-family:var(--font-display)!important;
+  letter-spacing:-.015em;
+}
 
-.rule-card{ border-color:#EAD9A8 !important; }
-.rule-title{ color:var(--orange) !important; }
-.instruction-hero{ background:linear-gradient(135deg,#FDFAF5,#F7E8C4) !important; border-color:#EAD9A8 !important; }
-.phase-mini-card.active{ background:#F7E8C4 !important; border-color:#EAD9A8 !important; }
-.phase-mini-card.active .n{ background:var(--orange) !important; border-color:var(--orange) !important; }
+/* Main app shell */
+.app{
+  background:rgba(255,248,236,.72)!important;
+  box-shadow:0 0 0 1px rgba(231,222,209,.55)!important;
+}
+.page{background:transparent!important;}
 
-.stepbar{ background:#F1E8DC !important; }
-.step{ color:#948B55 !important; }
+/* Header — Camp21 clean cream nav */
+.header.header,
+.header{
+  background:rgba(255,248,236,.94)!important;
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(231,222,209,.88)!important;
+  box-shadow:0 8px 22px rgba(23,17,63,.045)!important;
+}
+.brand{color:var(--camp-indigo)!important;text-decoration:none!important;}
+.brand-logo img,.brand-logo-inline img{
+  filter:drop-shadow(0 5px 10px rgba(23,17,63,.10));
+}
+.brand-text{
+  color:var(--camp-indigo)!important;
+  font-weight:700!important;
+  font-size:clamp(16px,2vw,22px)!important;
+  line-height:.98!important;
+}
+.header-actions .pill,.lang-pill,
+.avatar,.icon-btn{
+  background:#fff!important;
+  border:1px solid rgba(231,222,209,.95)!important;
+  color:var(--camp-indigo)!important;
+  box-shadow:0 8px 22px rgba(23,17,63,.07)!important;
+}
+.lang-pill{color:var(--camp-pink)!important;letter-spacing:.04em!important;}
+.avatar{
+  background:var(--camp-indigo)!important;
+  border-color:var(--camp-indigo)!important;
+  color:#fff!important;
+}
+.icon-btn span,.menu-lines span{background:var(--camp-indigo)!important;}
 
-.quick-fact{ background:#FDFAF5 !important; border-color:#EAD9A8 !important; }
-.qf-item.enough{ border-color:var(--orange) !important; }
-.qf-icon, .mini-emoji{ box-shadow:0 10px 20px rgba(32,16,62,.08) !important; }
+/* Hero image card — keep current structure, make it premium */
+.hero-card.hero-card,
+.hero-card{
+  background:rgba(255,255,255,.92)!important;
+  border:1px solid rgba(231,222,209,.92)!important;
+  border-radius:32px!important;
+  box-shadow:0 22px 46px rgba(23,17,63,.11)!important;
+  position:relative!important;
+}
+.hero-card:before{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border-radius:24px;
+  border:1px solid rgba(217,175,55,.18);
+  pointer-events:none;
+}
+.hero-card img{object-fit:contain!important;}
 
-.guide-drop{ box-shadow:0 10px 22px rgba(217,175,55,.16) !important; }
-.guide-body{ border-color:#EAD9A8 !important; }
+/* Editorial dark intro block */
+.intro-card{
+  background:
+    radial-gradient(circle at 88% 10%, rgba(217,175,55,.24), transparent 32%),
+    radial-gradient(circle at 8% 100%, rgba(231,53,124,.16), transparent 36%),
+    linear-gradient(135deg,var(--camp-indigo),#231553 64%,#2B1E65 100%)!important;
+  color:#fff!important;
+  border:1px solid rgba(217,175,55,.28)!important;
+  box-shadow:0 22px 48px rgba(23,17,63,.22)!important;
+  overflow:hidden!important;
+}
+.intro-card:after{
+  background:rgba(217,175,55,.22)!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+}
+.eyebrow{
+  color:rgba(255,255,255,.62)!important;
+  font-family:var(--font)!important;
+  font-weight:900!important;
+  letter-spacing:.18em!important;
+}
+.intro-title{
+  color:#fff!important;
+  font-weight:700!important;
+  text-wrap:balance;
+}
+.intro-title .teal,.teal{
+  color:var(--camp-pink-2)!important;
+}
+.intro-text{
+  color:rgba(255,255,255,.78)!important;
+  font-weight:500!important;
+}
 
-.bridge-box{ background:linear-gradient(135deg,#F7E8C4,#F0DFA0) !important; border-color:var(--orange) !important; }
-.bridge-tag{ background:var(--orange) !important; }
+/* Cards */
+.card,.form-card,.project-card,.accordion-item,.profile-card-v9,.overall-card-v9,
+.progress-section-v9,.portfolio-stat,.profile-info-panel,.menu-row-v9,.profile-menu-panel,
+.rule-card,.quick-fact,.phase-mini,.template-panel,.quiz-card,.score-box,.status,
+.info-card,.case-thread,.box,.qtier-card{
+  background:rgba(255,255,255,.94)!important;
+  border:1px solid rgba(231,222,209,.95)!important;
+  box-shadow:0 14px 32px rgba(23,17,63,.07)!important;
+  color:var(--camp-text)!important;
+}
+.card-label,.section-title,h2,h3,h4,.project-title,.profile-field span,.acc-title{
+  color:var(--camp-indigo)!important;
+}
+.section-sub,.hint,.acc-sub,.profile-field strong,.small,p,li{
+  color:var(--camp-muted)!important;
+}
+.intro-card p,.intro-card .intro-text,.intro-card .eyebrow{color:rgba(255,255,255,.78)!important;}
 
-.option.selected{ background:#EDE6F7 !important; border-color:var(--navy) !important; }
-.option.correct{ background:var(--green) !important; border-color:var(--teal) !important; }
+/* Buttons and links */
+.btn,.btn.primary,.primary,.guide-link{
+  background:var(--camp-pink)!important;
+  color:#fff!important;
+  border:0!important;
+  box-shadow:0 14px 28px rgba(231,53,124,.22)!important;
+}
+.btn.teal,.btn.orange,.btn.secondary:not(.ghost){
+  background:var(--camp-indigo)!important;
+  color:#fff!important;
+}
+.btn.ghost,.btn.secondary,.btn-text,.back{
+  background:#fff!important;
+  color:var(--camp-indigo)!important;
+  border:1px solid var(--camp-line)!important;
+  box-shadow:0 8px 20px rgba(23,17,63,.06)!important;
+}
+.btn:hover,.btn:focus-visible,.nav-item:hover{
+  transform:translateY(-1px);
+}
 
-.badge-card{ background:linear-gradient(135deg,var(--green),#F8F5FC) !important; border-color:#D8C7ED !important; }
-.badge-card h3{ color:var(--teal) !important; }
-.completion-box{ background:var(--green) !important; border-color:#D8C7ED !important; }
-.completion-box h3{ color:var(--teal) !important; }
+/* Inputs */
+input,textarea,select,.input{
+  background:#FFFCF7!important;
+  border:1.5px solid var(--camp-line)!important;
+  color:var(--camp-text)!important;
+  font-family:var(--font)!important;
+}
+input:focus,textarea:focus,select:focus,.input:focus{
+  outline:none!important;
+  border-color:var(--camp-gold)!important;
+  box-shadow:0 0 0 4px rgba(217,175,55,.18)!important;
+}
+label{color:var(--camp-indigo)!important;}
 
-.qtier-card.warm{ border-color:#D8C7ED !important; }
-.qtier-card.deep{ border-color:#EAD9A8 !important; }
-.qtier-card.warm .qtier-icon{ background:var(--green) !important; color:var(--teal) !important; }
-.qtier-card.deep .qtier-icon{ background:var(--red) !important; color:var(--orange) !important; }
-.qtier-tip{ background:linear-gradient(135deg,#F7E8C4,#F0DFA0) !important; border-color:#EAD9A8 !important; }
-.qtier-tip b{ color:var(--orange) !important; }
+/* Phase stepper + chips */
+.stepbar,.phase-stepper,.template-nav{background:rgba(255,255,255,.58)!important;}
+.step,.chip,.phase-mini-card,.tag-v9,.gate-pill-v9{
+  background:#fff!important;
+  border:1px solid var(--camp-line)!important;
+  color:var(--camp-muted)!important;
+}
+.step.active,.chip.active,.phase-mini-card.active .n{
+  background:var(--camp-indigo)!important;
+  color:#fff!important;
+  border-color:var(--camp-indigo)!important;
+}
+.step-dot,.phase-num-v9,.def-num,.num{
+  background:var(--camp-indigo)!important;
+  color:#fff!important;
+}
+.phase-card-v9.current,.phase-card-v9.done{
+  border-color:rgba(217,175,55,.65)!important;
+}
+.progress-fill{background:linear-gradient(90deg,var(--camp-pink),var(--camp-gold))!important;}
 
-.nav-item{ color:#948B55 !important; }
-.chip{ color:#948B55 !important; }
+/* Phase colour identity */
+.phase-stepper .step:nth-child(1) .step-dot{background:var(--camp-indigo)!important;}
+.phase-stepper .step:nth-child(3) .step-dot{background:var(--camp-purple)!important;}
+.phase-stepper .step:nth-child(5) .step-dot{background:var(--camp-olive)!important;}
+.phase-stepper .step:nth-child(7) .step-dot{background:var(--camp-gold)!important;color:var(--camp-indigo)!important;}
+.phase-stepper .step:nth-child(9) .step-dot{background:var(--camp-pink)!important;}
+.phase-mini-grid .phase-mini-card:nth-child(1).active .n,
+.template-nav .chip:nth-child(1).active{background:var(--camp-indigo)!important;}
+.template-nav .chip:nth-child(2).active{background:var(--camp-purple)!important;}
+.template-nav .chip:nth-child(3).active{background:var(--camp-olive)!important;}
+.template-nav .chip:nth-child(4).active{background:var(--camp-gold)!important;color:var(--camp-indigo)!important;}
+.template-nav .chip:nth-child(5).active{background:var(--camp-pink)!important;}
+
+/* Beginner guide / template components */
+.instruction-hero,.quick-fact,.bridge-box,.qtier-tip{
+  background:linear-gradient(135deg,#FFFDF8,#FFF1C9)!important;
+  border-color:rgba(217,175,55,.55)!important;
+}
+.guide-drop summary{
+  background:var(--camp-terracotta)!important;
+  color:#fff!important;
+}
+.guide-body{border-color:rgba(139,62,22,.25)!important;background:#fff!important;}
+.rule-title,.qf-copy b,.bridge-tag{color:var(--camp-terracotta)!important;}
+.bridge-tag{background:#FFF1C9!important;border:1px solid rgba(139,62,22,.22)!important;}
+.qf-icon,.mini-emoji,.acc-icon{
+  background:#FFF8EC!important;
+  border:1px solid rgba(217,175,55,.38)!important;
+}
+.option.selected{background:#EFE9FF!important;border-color:var(--camp-purple)!important;}
+.option.correct{background:#F3F0D3!important;border-color:var(--camp-olive)!important;}
+.option.wrong{background:#FFF0F5!important;border-color:var(--camp-pink)!important;}
+.feedback{color:var(--camp-muted)!important;}
+.badge-card,.completion-box{background:linear-gradient(135deg,#FFFDF8,#EFE9FF)!important;border-color:#DED0FA!important;}
+.badge-card h3,.completion-box h3{color:var(--camp-purple)!important;}
+
+/* Dashboard accordions */
+.accordion-item .acc-head{background:#fff!important;color:var(--camp-indigo)!important;}
+.acc-icon.orange{background:#FFF1C9!important;}
+.acc-icon.teal{background:#EFE9FF!important;}
+.acc-icon.yellow{background:#FFF8EC!important;}
+
+/* Bottom navigation */
+.bottom-nav.bottom-nav,.bottom-nav{
+  background:rgba(255,248,236,.97)!important;
+  border-top:1px solid rgba(231,222,209,.95)!important;
+  box-shadow:0 -12px 30px rgba(23,17,63,.08)!important;
+  backdrop-filter:blur(18px);
+}
+.nav-item{color:var(--camp-muted)!important;}
+.nav-item.active,.nav-item[aria-current="page"]{color:var(--camp-pink)!important;}
+.nav-icon-img{filter:saturate(.85) contrast(.96)!important;}
+.nav-item.active .nav-icon-img{filter:saturate(1.25) contrast(1.05) drop-shadow(0 4px 8px rgba(231,53,124,.18))!important;}
+
+/* Guide pages, which are self-contained with inline CSS */
+.wrap{
+  background:rgba(255,248,236,.86)!important;
+  box-shadow:0 0 0 1px rgba(231,222,209,.75)!important;
+}
+.wrap .hero,.hero{
+  background:
+    radial-gradient(circle at 86% 0%, rgba(217,175,55,.20), transparent 32%),
+    linear-gradient(135deg,var(--camp-indigo),#27185C)!important;
+  color:#fff!important;
+  border:1px solid rgba(217,175,55,.25)!important;
+}
+.wrap .hero:after,.hero:after{background:rgba(217,175,55,.18)!important;}
+.wrap .badge,.badge{
+  background:var(--camp-pink)!important;
+  color:#fff!important;
+  box-shadow:inset 0 0 0 4px rgba(255,255,255,.18),0 12px 24px rgba(23,17,63,.16)!important;
+}
+.wrap h1,.wrap h2,.wrap h3,.wrap .title,.wrap .quote{
+  font-family:var(--font-display)!important;
+  color:var(--camp-indigo)!important;
+}
+.wrap .hero h1,.wrap .hero .title,.wrap .hero .sub{color:#fff!important;}
+.wrap .card,.wrap .box{
+  background:#fff!important;
+  border-color:var(--camp-line)!important;
+  box-shadow:0 12px 28px rgba(23,17,63,.07)!important;
+}
+.wrap .num{background:var(--camp-indigo)!important;color:#fff!important;}
+.wrap .btn{background:var(--camp-pink)!important;color:#fff!important;}
+.wrap .back{background:rgba(255,255,255,.12)!important;color:#fff!important;border-color:rgba(255,255,255,.32)!important;}
+
+/* Mobile: keep header compact but all controls visible */
+@media(max-width:720px){
+  .header.header{padding-left:12px!important;padding-right:12px!important;}
+  .brand{gap:8px!important;}
+  .brand-text{font-size:13.5px!important;}
+  .header-actions{gap:5px!important;}
+  .pill.lang-pill{padding:0 8px!important;font-size:11px!important;}
+  .avatar,.icon-btn{width:38px!important;height:38px!important;min-height:38px!important;}
+  .hero-card.hero-card{border-radius:24px!important;}
+  .intro-title{font-size:clamp(25px,7vw,32px)!important;}
+  .intro-card{padding:24px 20px!important;}
+}
